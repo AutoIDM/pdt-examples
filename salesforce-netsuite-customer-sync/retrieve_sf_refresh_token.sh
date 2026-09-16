@@ -27,20 +27,52 @@ umask 077
 #   ./retrieve_sf_refresh_token.sh --print-env
 
 # Load .env from the project directory when present; shell env still wins.
+# Values may span lines when double quoted, the way python-dotenv reads them,
+# so a PEM private key in the same file does not break this script.
 SF_ENV_FILE="${SF_ENV_FILE:-$(dirname "$0")/.env}"
 if [[ -f "$SF_ENV_FILE" ]]; then
   sf_env_tmp="$(mktemp)"
-  while IFS= read -r line || [[ -n "$line" ]]; do
-    line="${line#export }"
-    [[ "$line" =~ ^[[:space:]]*(#|$) ]] && continue
-    key="${line%%=*}"
-    [[ -n "${!key:-}" ]] && continue
-    printf '%s\n' "$line" >> "$sf_env_tmp"
-  done < "$SF_ENV_FILE"
-  set -a
+  python3 - "$SF_ENV_FILE" > "$sf_env_tmp" <<'PYENV'
+import os, re, shlex, sys
+
+text = open(sys.argv[1], encoding="utf-8").read()
+key_re = re.compile(r'\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=')
+pos = 0
+while pos < len(text):
+    end = text.find("\n", pos)
+    end = len(text) if end < 0 else end
+    line = text[pos:end]
+    if not line.strip() or line.lstrip().startswith("#"):
+        pos = end + 1
+        continue
+    m = key_re.match(line)
+    if not m:
+        pos = end + 1
+        continue
+    key = m.group(1)
+    rest = text[pos + m.end():]
+    if rest[:1] in ("'", '"'):
+        quote = rest[0]
+        close = rest.find(quote, 1)
+        while quote == '"' and close > 0 and rest[close - 1] == "\\":
+            close = rest.find(quote, close + 1)
+        if close < 0:
+            sys.exit(f"{sys.argv[1]}: unterminated quote for {key}")
+        value = rest[1:close]
+        if quote == '"':
+            value = value.replace('\\"', '"').replace("\\n", "\n")
+        pos = pos + m.end() + close + 1
+        nl = text.find("\n", pos)
+        pos = len(text) if nl < 0 else nl + 1
+    else:
+        value = re.split(r"\s+#", line[m.end():], maxsplit=1)[0].strip()
+        pos = end + 1
+    if os.environ.get(key):
+        continue
+    print(f"export {key}={shlex.quote(value)}")
+PYENV
   # shellcheck disable=SC1090
   source "$sf_env_tmp"
-  set +a
   rm -f "$sf_env_tmp"
 fi
 
