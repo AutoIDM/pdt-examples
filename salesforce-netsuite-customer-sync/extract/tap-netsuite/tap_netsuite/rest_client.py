@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import sys
 from functools import cached_property
 from typing import Any, Callable
 from urllib.parse import parse_qsl
@@ -14,15 +13,8 @@ from singer_sdk.streams import RESTStream
 
 from tap_netsuite.auth import NetSuiteRESTAuthenticator
 
-if sys.version_info >= (3, 9):
-    import importlib.resources as importlib_resources
-else:
-    import importlib_resources
-
 
 _Auth = Callable[[requests.PreparedRequest], requests.PreparedRequest]
-
-SCHEMAS_DIR = importlib_resources.files(__package__) / "schemas"
 
 
 class NetSuiteRESTPaginator(BaseHATEOASPaginator):

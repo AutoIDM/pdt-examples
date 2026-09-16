@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import abc
-import copy
 import sys
 from functools import cached_property
 
@@ -18,27 +17,6 @@ class FatalException(Exception):  # noqa: N818
 
 class RetriableAPIError(Exception):  # noqa: N818
     """Exception for API errors that can be retried (e.g. 429 Too Many Requests)."""
-
-
-def merge_state(old_state: dict, new_state: dict) -> dict:
-    """Takes two state dictionaries and updates the old one based on the new one."""
-    state = copy.deepcopy(old_state)
-
-    if new_state is None or "bookmarks" not in new_state:
-        return state
-
-    if state is None:
-        state = {"bookmarks": {}}
-    elif "bookmarks" not in state:
-        state["bookmarks"] = {}
-
-    for stream_name, stream_state in new_state["bookmarks"].items():
-        if stream_name not in state["bookmarks"]:
-            state["bookmarks"].update({stream_name: {}})
-        for state_key, state_value in stream_state.items():
-            state["bookmarks"][stream_name].update({state_key: state_value})
-
-    return state
 
 
 class AutoIDMAuthenticator(metaclass=abc.ABCMeta):

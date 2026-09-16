@@ -40,14 +40,6 @@ plugins:
     - name: certificate_id
     - name: private_key
       sensitive: true
-    - name: soap_consumer_key
-      sensitive: true
-    - name: soap_consumer_secret
-      sensitive: true
-    - name: soap_token_id
-      sensitive: true
-    - name: soap_token_secret
-      sensitive: true
     select:
     - customer.*
     - contact.*
@@ -75,15 +67,6 @@ plugins:
     inherit_from: tap-duckdb
     select:
     - '*\.autoidm-*.*'
-    - '*\.autoidm_state-*.*'
-  - name: tap-duckdb-notifications
-    inherit_from: tap-duckdb
-    select:
-    - '*\.autoidm-notifications.*'
-  - name: tap-duckdb-send-once-notifications
-    inherit_from: tap-duckdb
-    select:
-    - '*\.autoidm-unsent_send_once_notifications.*'
   loaders:
   - name: target-duckdb
     variant: jwills
@@ -110,23 +93,16 @@ plugins:
     pip_url: git+https://github.com/MeltanoLabs/target-csv.git@7de9ef4231bb582c78b94449b38a256295b746bb
     executable: target-csv
     config:
-      output_path_prefix: $MELTANO_PROJECT_ROOT/logs/
+      output_path_prefix: $ARTIFACTS_PATH
       timestamp_format: '%Y-%m-%d.T%H%M%S'
       file_naming_scheme: '{timestamp}_{stream_name}.csv'
-  - name: target-csv-artifacts
-    inherit_from: target-csv
-    config:
-      output_path_prefix: $ARTIFACTS_PATH
-  - name: target-apprise
-    variant: autoidm
-    pip_url: target-apprise==0.1.0
   transformers:
   - name: dbt
     namespace: dbt_duckdb
     pip_url: dbt-core==1.10.1 dbt-duckdb==1.11.0 duckdb==1.5.5
     commands:
       pre_python: run -m +stg_salesforce_account +stg_salesforce_contact +stg_netsuite_customer +stg_netsuite_contact
-      post_python: run -m +unsent_send_once_notifications +netsuite_customer_target_create +netsuite_customer_target_update +netsuite_contact_target_create +netsuite_contact_target_update
+      post_python: run -m +netsuite_customer_target_create +netsuite_customer_target_update +netsuite_contact_target_create +netsuite_contact_target_update
       drop_source_salesforce: run-operation autoidm_drop_salesforce
       drop_source_netsuite: run-operation autoidm_drop_netsuite
     config:
@@ -138,9 +114,6 @@ plugins:
       target_schema: autoidm
   utilities:
   - name: autoidm-transform
-    namespace: autoidm_transform
-    pip_url: -e ./autoidm-transform
-  - name: autoidm-persist_state
     namespace: autoidm_transform
     pip_url: -e ./autoidm-transform
 environments:
@@ -155,9 +128,6 @@ environments:
         config:
           production: false
       loaders:
-      - name: target-csv
-        config:
-          output_path_prefix: output/
       - name: target-netsuite
         config:
           production: false
@@ -188,10 +158,10 @@ jobs:
   - dbt:pre_python autoidm-transform dbt:post_python
 - name: artifacts
   tasks:
-  - tap-duckdb-logs target-csv-artifacts
+  - tap-duckdb-logs target-csv
 - name: load
   tasks:
-  - tap-duckdb target-netsuite #tap-duckdb-notifications target-apprise tap-duckdb-send-once-notifications target-apprise autoidm-persist_state
+  - tap-duckdb target-netsuite
 venv:
   backend: uv
 project_id: 01a05801-83bd-7106-9262-2a05cd5e38e4
