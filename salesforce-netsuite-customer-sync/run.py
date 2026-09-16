@@ -86,24 +86,50 @@ def main() -> int:
             die(EXIT_INSTALL, "meltano install failed", exit_code=code)
         return EXIT_OK
 
-    with storage.sync() as run:
-        run_env = {
-            "DUCKDB_PATH": str(run.state / "sync.duckdb"),
-            "ARTIFACTS_PATH": str(run.output) + os.sep,
-            # tap-salesforce rotates its refresh token, so the store must survive the run.
-            "SALESFORCE_REFRESH_TOKEN_STORE_DIR": str(run.state),
-        }
-        code = meltano(app_dir, RUN_ARGS, environment, run_env)
-        if code != 0:
-            die(EXIT_RUN, "meltano run failed", exit_code=code)
-        code = meltano(app_dir, LOAD_ARGS, environment, run_env)
-        if code != 0:
-            failure = ("meltano load failed", code)
+    # One fresh local folder per run. state/ is pulled from the PDT Store
+    # under a lock, output/ collects the CSV artifacts for this run.
+    store = storage.store()
+    run_dir = app_dir / ".pdt" / "runs" / storage.RUN_ID
+    state_dir = run_dir / "state"
+    output_dir = run_dir / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    try:
+        lease = store.pull("state/", state_dir)
+    except storage.StorageLocked as e:
+        die(EXIT_RUN, "state locked", error=str(e))
+    log("info", "pulled state", store=store.url, local=str(state_dir))
 
-    # Push state after a failure too, so the state lock is released for the next run.
+    def abort(message: str, code: int) -> None:
+        # The store has no abort call, so release the lock by hand. Without
+        # this a failed run blocks the next one until the lock's TTL passes.
+        if lease.lock:
+            store.backend().delete(storage.LOCK)
+        die(EXIT_RUN, message, exit_code=code)
+
+    run_env = {
+        "DUCKDB_PATH": str(state_dir / "sync.duckdb"),
+        "ARTIFACTS_PATH": str(output_dir) + os.sep,
+        # tap-salesforce rotates its refresh token, so the store must survive the run.
+        "SALESFORCE_REFRESH_TOKEN_STORE_DIR": str(state_dir),
+    }
+    code = meltano(app_dir, RUN_ARGS, environment, run_env)
+    if code != 0:
+        abort("meltano run failed", code)
+
+    # Artifacts go up before the load, so a person can review them even
+    # when NetSuite rejects the writes.
+    artifacts = store.run_folder() + "artifacts/"
+    store.push(output_dir, artifacts)
+    log("info", "pushed artifacts", remote=artifacts)
+
+    code = meltano(app_dir, LOAD_ARGS, environment, run_env)
+    if code != 0:
+        abort("meltano load failed", code)
+
+    # A successful load is the only thing that advances the shared state.
+    # This also releases the lock the pull took.
     store.push(state_dir, "state/", lease)
-    if failure is not None:
-        die(EXIT_RUN, failure[0], exit_code=failure[1])
+    log("info", "pushed state", remote="state/")
 
     log("info", "sync complete", environment=environment)
     return EXIT_OK
