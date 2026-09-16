@@ -21,20 +21,19 @@ A contact whose Account has no NetSuite customer yet gets a NULL `company`. It s
 - `artifacts` exports the `autoidm` and `autoidm_state` tables to CSV through `target-csv-artifacts`, so a person can review pending changes before a load.
 - `load` reads the four `netsuite_*_target_*` tables with `tap-duckdb` and writes them to `target-netsuite`.
 
-`run.py` runs `extract`, `transform`, and `artifacts`, then `load`. Each run works in a fresh directory under `.pdt/runs/`. Before the run it pulls `state/` from PDT storage, which holds `sync.duckdb`. After the run it uploads the CSV artifacts to that run's folder, then pushes `state/` back. The push happens after a failed run too, because it releases the storage lock.
-
-`run.py --install-only` runs `meltano install` and stops. The Dockerfile runs that at image build time, so a deployed job starts with every plugin installed.
+`run.py` runs `meltano install`, then runs `extract`, `transform`, and `artifacts` before `load`. Each run uses a fresh local directory. It pulls `state/sync.duckdb` from the PDT Store, uploads CSV artifacts to that run's folder under `runs/`, and pushes the DuckDB file and the rotated Salesforce refresh token back to `state/`.
 
 ## Running it locally
 
 1. Copy the names in `env.template` into a `.env` file in this folder or the project root, and fill them in.
 2. Run `pdt run salesforce-netsuite-customer-sync`.
+3. For direct Meltano commands, create the database directory and set `DUCKDB_PATH` to an absolute file path.
+4. Set `ARTIFACTS_PATH` to an output directory with a trailing slash.
+5. Run `meltano --environment dev install`, then `meltano --environment dev run --force extract transform artifacts`.
 
-For direct Meltano commands, set `DUCKDB_PATH` to an absolute file path in a directory that exists, and set `ARTIFACTS_PATH` to an output directory with a trailing slash. Then run `meltano --environment dev install` and `meltano --environment dev run --force extract transform artifacts`.
+`pdt-cli[apps]==0.1.2` ships the `storage.sync()` call that `run.py` uses. PDT supplies `PDT_STORAGE_URL` for the app's storage location. Without that variable, the storage API uses `.pdt/storage/<app>/` under the project root, so a local `pdt run` and a cloud job behave the same way.
 
-Without `PDT_STORAGE_URL`, storage lives under `.pdt/storage/<app>/` in the project root. pdt sets that variable for a deployed app.
-
-`meltano_environment` in `config.yml` picks the Meltano environment. `dev` points at a Salesforce sandbox and a NetSuite sandbox account. `prod` points at both production systems.
+`storage.sync()` locks `state/` for the run and releases it when the run ends, whether Meltano succeeded or failed, so a failed run never blocks the next one. Artifacts go up either way, so a person can review them when NetSuite rejects the load. State goes up either way too, because tap-salesforce rotates its refresh token on every login and keeps the current one under the state folder; losing it would break every later run. The DuckDB file is rebuilt by the extract on each run, so a partial one does no harm. Local run files remain under this app's `.pdt/runs/` for inspection. If a run dies without cleaning up, the next run on the same computer takes the lock over; from anywhere else, `pdt storage salesforce-netsuite-customer-sync unlock` releases it.
 
 `tap-duckdb` is pinned to a commit that bumps its SDK and DuckDB versions, because the released version does not install on Python 3.12. The project pins DuckDB 1.5.5 for the tap, the target, dbt, and the transform package. Move `pip_url` to the released package once one ships with those versions.
 
