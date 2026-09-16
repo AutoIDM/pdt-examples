@@ -31,6 +31,7 @@ import tempfile
 from pathlib import Path
 
 from pdt.config import ConfigError, check_env, load_env, merged_app
+from pdt.utils import storage
 from pdt.utils.log import die, log
 
 EXIT_OK = 0
@@ -85,45 +86,16 @@ def main() -> int:
             die(EXIT_INSTALL, "meltano install failed", exit_code=code)
         return EXIT_OK
 
-    try:
-        from pdt.utils import storage
-    except ImportError as e:
-        die(EXIT_CONFIG, "storage support unavailable", error="install pdt-cli with storage support", detail=str(e))
-
-    run_parent = app_dir / ".pdt" / "runs"
-    run_parent.mkdir(parents=True, exist_ok=True)
-    run_root = Path(tempfile.mkdtemp(prefix="run-", dir=run_parent))
-    state_dir = run_root / "state"
-    artifacts_dir = run_root / "artifacts"
-    duckdb_path = state_dir / "sync.duckdb"
-    state_dir.mkdir(parents=True, exist_ok=True)
-    artifacts_dir.mkdir(parents=True, exist_ok=True)
-    store = storage.store()
-    lease = store.pull("state/", state_dir)
-    run_env = {
-        "DUCKDB_PATH": str(duckdb_path),
-        "ARTIFACTS_PATH": str(artifacts_dir) + os.sep,
-    }
-    # tap-salesforce keeps the rotating refresh token in the user's data
-    # folder, which a container discards. The hook writes it into the app's
-    # deployed secret (or the .env file here), so the next run starts from
-    # it, unless the operator picked a hook of their own.
-    if "TAP_SALESFORCE_REFRESH_TOKEN_STORE_HOOK" not in os.environ:
-        run_env["TAP_SALESFORCE_REFRESH_TOKEN_STORE_HOOK"] = str(app_dir / "scripts" / "sf-refresh-token-keyvault.py")
-
-    code = meltano(app_dir, RUN_ARGS, environment, run_env)
-    try:
-        artifact_remote = store.run_folder() + "artifacts/"
-        store.fs().makedirs(artifact_remote, exist_ok=True)
-        store.push(artifacts_dir, artifact_remote)
-    except Exception as e:
-        log("error", "artifact upload failed", error=str(e))
-        if code == 0:
-            code = EXIT_RUN
-    failure = None
-    if code != 0:
-        failure = ("meltano run failed", code)
-    else:
+    with storage.sync() as run:
+        run_env = {
+            "DUCKDB_PATH": str(run.state / "sync.duckdb"),
+            "ARTIFACTS_PATH": str(run.output) + os.sep,
+            # tap-salesforce rotates its refresh token, so the store must survive the run.
+            "SALESFORCE_REFRESH_TOKEN_STORE_DIR": str(run.state),
+        }
+        code = meltano(app_dir, RUN_ARGS, environment, run_env)
+        if code != 0:
+            die(EXIT_RUN, "meltano run failed", exit_code=code)
         code = meltano(app_dir, LOAD_ARGS, environment, run_env)
         if code != 0:
             failure = ("meltano load failed", code)
