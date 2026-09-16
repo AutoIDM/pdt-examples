@@ -21,9 +21,7 @@ A contact whose Account has no NetSuite customer yet gets a NULL `company`. It s
 - `artifacts` exports the `autoidm` and `autoidm_state` tables to CSV through `target-csv-artifacts`, so a person can review pending changes before a load.
 - `load` reads the four `netsuite_*_target_*` tables with `tap-duckdb` and writes them to `target-netsuite`.
 
-`run.py` runs `extract`, `transform`, and `artifacts`, then `load`. Each run works in a fresh directory under `.pdt/runs/`. Before the run it pulls `state/` from PDT storage, which holds `sync.duckdb`. After the run it uploads the CSV artifacts to that run's folder, then pushes `state/` back. The push happens after a failed run too, because it releases the storage lock.
-
-`run.py --install-only` runs `meltano install` and stops. The Dockerfile runs that at image build time, so a deployed job starts with every plugin installed.
+`run.py` runs `extract`, `transform`, and `artifacts` before `load`. Each run uses a fresh local directory. It pulls `state/sync.duckdb` from the PDT Store, uploads CSV artifacts to that run's artifact folder, and pushes the closed DuckDB file back to `state/` after a successful load.
 
 ## Running it locally
 
@@ -41,7 +39,7 @@ Artifacts remain available if NetSuite loading fails. State uploads occur only a
 
 ## The refresh token
 
-Salesforce gives the tap a new refresh token on every login and invalidates the old one. The tap keeps the current token in `$XDG_DATA_HOME/autoidm/salesforce-netsuite-customer-sync/salesforce_refresh_token.json` (`%LOCALAPPDATA%\autoidm\...` on Windows) and tries that copy first at the next login. A rejected copy, or none, falls back to the configured `TAP_SALESFORCE_REFRESH_TOKEN`. On your own computer that folder persists, so several runs of the app share one token chain. A container starts with the folder empty and discards it, so every deployed run starts from the configured token.
+The `Dockerfile` runs `uv run --script run.py --install-only` at image build time, so `meltano install` runs once when the image is built instead of at every run. Run `meltano install` yourself before the first local `uv run --script run.py`.
 
 `TAP_SALESFORCE_REFRESH_TOKEN_STORE_HOOK` names an executable that writes the new token where the next run's configured token comes from. It runs with no arguments and receives the new token on stdin.
 
