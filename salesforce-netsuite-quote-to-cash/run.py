@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli[apps]==0.1.0", "meltano==4.2.2"]
+# dependencies = ["pdt-cli[apps]==0.1.2", "meltano==4.2.2"]
 # ///
 """Turn Closed Won Salesforce opportunities into NetSuite sales orders and invoices.
 
@@ -90,15 +90,15 @@ def main() -> int:
         die(EXIT_CONFIG, "env vars missing", problems="; ".join(problems))
     environment = str(app["config"].get("meltano_environment", "") or "").strip()
     if environment == "":
-        die(EXIT_CONFIG, "config.yml missing key", key="meltano_environment")
+        die(EXIT_CONFIG, "pdt.yml missing key", key="meltano_environment")
     fields = {}
     for name, key in FIELD_ENV.items():
         value = str(app["config"].get(key, "") or "").strip()
         if value == "":
-            die(EXIT_CONFIG, "config.yml missing key", key=key)
+            die(EXIT_CONFIG, "pdt.yml missing key", key=key)
         fields[name] = value
 
-    # pdt runs `--install-only` at image build time when config.yml sets
+    # pdt runs `--install-only` at image build time when pdt.yml sets
     # build_script: ["uv run --script run.py --install-only"].
     code = meltano(app_dir, INSTALL_ARGS, environment, fields)
     if code != 0:
