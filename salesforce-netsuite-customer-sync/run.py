@@ -47,6 +47,9 @@ LOAD_ARGS = ["run", "--force", "load"]
 def meltano(app_dir: Path, args: list[str], environment: str, run_env: dict[str, str] | None = None) -> int:
     child_env = dict(os.environ)
     child_env["MELTANO_ENVIRONMENT"] = environment
+    if child_env.get("NO_COLOR"):
+        # dbt ignores NO_COLOR; the deployed image sets it so logs stay plain.
+        child_env["DBT_USE_COLORS"] = "false"
     if run_env:
         child_env.update(run_env)
     log("info", "starting meltano", args=" ".join(args), environment=environment)
