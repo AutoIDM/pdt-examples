@@ -3,7 +3,7 @@
 # How often this app runs.
 # Shorthand: hourly, daily, weekly, monthly, yearly.
 # Or a 5-field cron expression, for example "0 * * * *".
-schedule: "0 * * * *"
+schedule: "45 * * * *"
 
 config:
   # Which Meltano environment run.py uses. `dev` points at a sandbox

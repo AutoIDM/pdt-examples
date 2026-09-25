@@ -6,6 +6,13 @@ platform:
   provider: azure
   subscription: "3f7c321a-ccc7-41b0-9b6b-f5fd14bef70a"
   region: eastus2
+  resource_group: pdt-jon
+
+  # provider: aws
+  # account: "651629739282"s
+  # region: us-east-1
+  # profile: autoidm-dev
+
 
 # Settings for one app. The app's own config.yml can hold these instead.
 apps:
