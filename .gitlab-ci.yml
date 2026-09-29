@@ -1,0 +1,51 @@
+# Runs every app that `pdt list --names` prints against one pdt commit. An app
+# with `enabled: false` in its config.yml is left out.
+# The app's env vars (see its env.template) are CI/CD variables of this project.
+
+default:
+  image: ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+  interruptible: true
+
+variables:
+  PYTHONUNBUFFERED: "1"
+  NO_COLOR: "1"
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+# A pdt pipeline sets PDT_REF to its commit, and PDT_BRANCH on a merge request.
+# Without PDT_REF, a merge request here uses the pdt branch of the same name
+# when one exists, and everything else uses pdt master.
+apps:
+  variables:
+    PDT_URL: https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/autoidm/pdt.git
+  before_script:
+    - apt-get update -qq && apt-get install -y -qq --no-install-recommends git
+    - |
+      if [ -n "$PDT_BRANCH" ] && git fetch -q --depth 1 origin "$PDT_BRANCH"; then
+        git checkout -q FETCH_HEAD
+      fi
+    - |
+      if [ -z "$PDT_REF" ]; then
+        PDT_REF=master
+        if git ls-remote --exit-code --heads "$PDT_URL" "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" > /dev/null; then
+          PDT_REF="$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
+        fi
+      fi
+    - git init -q /tmp/pdt && git -C /tmp/pdt fetch -q --depth 1 "$PDT_URL" "$PDT_REF" && git -C /tmp/pdt checkout -q FETCH_HEAD
+    - uv build -q --wheel -o "$CI_PROJECT_DIR/pdt-dist" /tmp/pdt
+    # Each run.py pins pdt-cli to one version. uv takes that version from
+    # this folder before PyPI, so the pin gets the build from PDT_REF.
+    - export UV_FIND_LINKS="$CI_PROJECT_DIR/pdt-dist"
+    - uv tool install "$(ls pdt-dist/*.whl)"
+    - export PATH="$HOME/.local/bin:$PATH"
+  script:
+    - |
+      version="$(ls pdt-dist | sed 's/^pdt_cli-\(.*\)-py3.*/\1/')"
+      for app in $(pdt list --names); do
+        grep -q "pdt-cli\[apps\]==$version\"" "$app/run.py" || { echo "$app/run.py does not pin pdt-cli $version, so it would run PyPI pdt"; exit 1; }
+        (cd "$app" && uv run run.py)
+        pdt run "$app"
+      done

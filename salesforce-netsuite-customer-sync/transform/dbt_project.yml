@@ -1,0 +1,17 @@
+name: salesforce_netsuite_customer_sync
+version: '1.0'
+profile: meltano
+config-version: 2
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+model-paths:
+- models
+macro-paths:
+- macros
+target-path: ../.meltano/transformers/dbt/target
+log-path: logs
+clean-targets:
+- ../.meltano/transformers/dbt/target
+- logs
+on-run-start:
+  - 'CREATE SCHEMA IF NOT EXISTS autoidm_state;'
+  - 'CREATE TABLE IF NOT EXISTS autoidm_state.send_once_notifications (hash VARCHAR PRIMARY KEY, title VARCHAR, body VARCHAR, sent BOOLEAN DEFAULT FALSE);'

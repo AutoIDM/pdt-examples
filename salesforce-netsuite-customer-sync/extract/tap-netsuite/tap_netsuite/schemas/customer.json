@@ -1,0 +1,30 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "externalid": {
+            "type": ["string", "null"]
+        },
+        "companyname": {
+            "type": ["string", "null"]
+        },
+        "phone": {
+            "type": ["string", "null"]
+        },
+        "fax": {
+            "type": ["string", "null"]
+        },
+        "url": {
+            "type": ["string", "null"]
+        },
+        "comments": {
+            "type": ["string", "null"]
+        },
+        "subsidiary": {
+            "type": ["string", "null"]
+        }
+    },
+    "$schema": "http://json-schema.org/draft-06/hyper-schema#"
+}

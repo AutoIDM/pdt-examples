@@ -1,0 +1,1335 @@
+{
+    "type": "object",
+    "properties": {
+        "isInactive": {
+            "title": "Location is Inactive",
+            "type": "boolean",
+            "description": "Check this box to inactivate this location record. Inactive locations do not show in lists of locations on records and transactions."
+        },
+        "timeZone": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "America/Sao_Paulo",
+                        "Asia/Vladivostok",
+                        "Africa/Nairobi",
+                        "Asia/Hong_Kong",
+                        "Asia/Riyadh",
+                        "Pacific/Kwajalein",
+                        "America/Montevideo",
+                        "Africa/Cairo",
+                        "Africa/Windhoek",
+                        "Asia/Karachi",
+                        "Europe/Moscow",
+                        "Pacific/Honolulu",
+                        "America/Guatemala",
+                        "Australia/Hobart",
+                        "Australia/Darwin",
+                        "Australia/Perth",
+                        "Europe/London",
+                        "Asia/Kuala_Lumpur",
+                        "Asia/Baghdad",
+                        "Europe/Budapest",
+                        "Asia/Rangoon",
+                        "America/Bogota",
+                        "America/Manaus",
+                        "Asia/Calcutta",
+                        "America/Tijuana",
+                        "Asia/Kabul",
+                        "Pacific/Tongatapu",
+                        "America/New_York",
+                        "Asia/Beirut",
+                        "Asia/Yerevan",
+                        "Atlantic/Azores",
+                        "Etc/GMT+12",
+                        "America/Chihuahua",
+                        "Asia/Krasnoyarsk",
+                        "GMT",
+                        "America/Anchorage",
+                        "Europe/Warsaw",
+                        "America/Chicago",
+                        "Asia/Yakutsk",
+                        "America/Halifax",
+                        "Etc/GMT-1",
+                        "Africa/Johannesburg",
+                        "America/Godthab",
+                        "Europe/Paris",
+                        "Europe/Istanbul",
+                        "Etc/GMT-3",
+                        "America/Santiago",
+                        "Europe/Minsk",
+                        "Pacific/Auckland",
+                        "Asia/Baku",
+                        "America/Caracas",
+                        "Europe/Kiev",
+                        "Asia/Tehran",
+                        "Asia/Dacca",
+                        "Atlantic/Reykjavik",
+                        "Pacific/Samoa",
+                        "America/La_Paz",
+                        "Asia/Taipei",
+                        "America/Regina",
+                        "Asia/Tashkent",
+                        "Asia/Manila",
+                        "Asia/Bangkok",
+                        "Pacific/Guam",
+                        "Asia/Irkutsk",
+                        "America/St_Johns",
+                        "Asia/Muscat",
+                        "America/Denver",
+                        "US/East-Indiana",
+                        "Europe/Amsterdam",
+                        "America/Buenos_Aires",
+                        "America/Noronha",
+                        "Asia/Amman",
+                        "Asia/Seoul",
+                        "Australia/Sydney",
+                        "Asia/Tokyo",
+                        "Australia/Adelaide",
+                        "Asia/Katmandu",
+                        "Asia/Almaty",
+                        "America/Phoenix",
+                        "America/Los_Angeles",
+                        "Australia/Brisbane",
+                        "America/Mexico_City",
+                        "Asia/Yekaterinburg",
+                        "Etc/GMT+3",
+                        "Pacific/Guadalcanal",
+                        "Asia/Jerusalem",
+                        "Etc/GMT+1"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "custrecord_bpc_loc_emp_count": {
+            "title": "Employee Count",
+            "type": "string",
+            "nullable": true,
+            "x-ns-custom-field": true
+        },
+        "lastModifiedDate": {
+            "title": "Last Modified Date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+        },
+        "latitude": {
+            "title": "Latitude",
+            "type": "number",
+            "description": "Enter the latitude coordinate of the location in decimal format, for example, &quot;37.5367&quot;. Latitude is between -90 and 90. Use at least four decimal places to achieve a precise location. The decimal symbol you use depends on the number format in your user preferences.",
+            "format": "float",
+            "nullable": true
+        },
+        "externalId": {
+            "title": "External ID",
+            "type": "string",
+            "nullable": true
+        },
+        "tranPrefix": {
+            "title": "Document Number Prefix",
+            "type": "string",
+            "description": "When you use auto-generated numbering with the Locations feature, you can make your transaction number sequences independent per location. Enter up to 8 alphanumeric characters in this field to number transactions with a prefix to signify this location. Then, click Save. To set up auto-generated numbering, go to Setup &gt; Company &gt; Setup Tasks &gt; Auto-Generated Numbers. On the Document Numbers subtab, check the Use Location box next to each transaction this prefix should apply to.",
+            "nullable": true
+        },
+        "includeChildren": {
+            "title": "Include Children",
+            "type": "boolean",
+            "description": "Check the Include Children box to associate the location with all the sub-subsidiaries associated with each subsidiary selected in the Subsidiary field."
+        },
+        "internalId": {
+            "title": "Internal ID",
+            "type": "integer",
+            "description": "The NetSuite Internal ID related to this location.",
+            "format": "int64",
+            "nullable": true
+        },
+        "name": {
+            "title": "Name",
+            "type": "string",
+            "description": "Enter a name for this location. The name you enter here is the name that shows in location lists on records and transactions. The name can be alphanumeric. The maximum number of characters is 60.",
+            "nullable": true
+        },
+        "locationType": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "id": {
+            "title": "Internal ID",
+            "type": "string",
+            "nullable": true
+        },
+        "fullName": {
+            "title": "Full Name",
+            "type": "string",
+            "nullable": true
+        },
+        "longitude": {
+            "title": "Longitude",
+            "type": "number",
+            "description": "Enter the longitude coordinate of the location in decimal format, for example, &quot;-122.3285&quot;. Longitude is between -180 and 180. Use at least four decimal places to achieve a precise location. The decimal symbol you use depends on the number format in your user preferences.",
+            "format": "float",
+            "nullable": true
+        },
+        "refName": {
+            "title": "Reference Name",
+            "type": "string"
+        },
+        "links": {
+            "title": "Links",
+            "type": "array",
+            "readOnly": true,
+            "items": {
+                "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+            }
+        },
+        "logo": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "mainAddress": {
+            "type": "object",
+            "properties": {
+                "zip": {
+                    "title": "Zip",
+                    "type": "string",
+                    "nullable": true
+                },
+                "country": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "title": "Internal identifier",
+                            "type": "string",
+                            "enum": [
+                                "PR",
+                                "PS",
+                                "PT",
+                                "PW",
+                                "PY",
+                                "QA",
+                                "AD",
+                                "AE",
+                                "AF",
+                                "AG",
+                                "AI",
+                                "AL",
+                                "AM",
+                                "AN",
+                                "AO",
+                                "AQ",
+                                "AR",
+                                "AS",
+                                "AT",
+                                "RE",
+                                "AU",
+                                "AW",
+                                "AX",
+                                "AZ",
+                                "RO",
+                                "BA",
+                                "BB",
+                                "RS",
+                                "BD",
+                                "BE",
+                                "RU",
+                                "BF",
+                                "BG",
+                                "RW",
+                                "BH",
+                                "BI",
+                                "BJ",
+                                "BL",
+                                "BM",
+                                "BN",
+                                "BO",
+                                "SA",
+                                "BQ",
+                                "SB",
+                                "BR",
+                                "SC",
+                                "BS",
+                                "SD",
+                                "BT",
+                                "SE",
+                                "BV",
+                                "SG",
+                                "BW",
+                                "SH",
+                                "SI",
+                                "BY",
+                                "SJ",
+                                "BZ",
+                                "SK",
+                                "SL",
+                                "SM",
+                                "SN",
+                                "SO",
+                                "CA",
+                                "SR",
+                                "CC",
+                                "SS",
+                                "CD",
+                                "ST",
+                                "CF",
+                                "SV",
+                                "CG",
+                                "CH",
+                                "SX",
+                                "CI",
+                                "SY",
+                                "SZ",
+                                "CK",
+                                "CL",
+                                "CM",
+                                "CN",
+                                "CO",
+                                "CR",
+                                "TC",
+                                "CS",
+                                "TD",
+                                "CU",
+                                "TF",
+                                "CV",
+                                "TG",
+                                "CW",
+                                "TH",
+                                "CX",
+                                "CY",
+                                "TJ",
+                                "CZ",
+                                "TK",
+                                "TL",
+                                "TM",
+                                "TN",
+                                "TO",
+                                "TR",
+                                "TT",
+                                "DE",
+                                "TV",
+                                "TW",
+                                "DJ",
+                                "TZ",
+                                "DK",
+                                "DM",
+                                "DO",
+                                "UA",
+                                "UG",
+                                "DZ",
+                                "UM",
+                                "EA",
+                                "EC",
+                                "US",
+                                "EE",
+                                "EG",
+                                "EH",
+                                "UY",
+                                "UZ",
+                                "VA",
+                                "ER",
+                                "VC",
+                                "ES",
+                                "ET",
+                                "VE",
+                                "VG",
+                                "VI",
+                                "VN",
+                                "VU",
+                                "FI",
+                                "FJ",
+                                "FK",
+                                "FM",
+                                "FO",
+                                "FR",
+                                "WF",
+                                "GA",
+                                "GB",
+                                "WS",
+                                "GD",
+                                "GE",
+                                "GF",
+                                "GG",
+                                "GH",
+                                "GI",
+                                "GL",
+                                "GM",
+                                "GN",
+                                "GP",
+                                "GQ",
+                                "GR",
+                                "GS",
+                                "GT",
+                                "GU",
+                                "GW",
+                                "GY",
+                                "XK",
+                                "HK",
+                                "HM",
+                                "HN",
+                                "HR",
+                                "HT",
+                                "YE",
+                                "HU",
+                                "IC",
+                                "ID",
+                                "YT",
+                                "IE",
+                                "IL",
+                                "IM",
+                                "IN",
+                                "IO",
+                                "ZA",
+                                "IQ",
+                                "IR",
+                                "IS",
+                                "IT",
+                                "ZM",
+                                "JE",
+                                "ZW",
+                                "JM",
+                                "JO",
+                                "JP",
+                                "KE",
+                                "KG",
+                                "KH",
+                                "KI",
+                                "KM",
+                                "KN",
+                                "KP",
+                                "KR",
+                                "KW",
+                                "KY",
+                                "KZ",
+                                "LA",
+                                "LB",
+                                "LC",
+                                "LI",
+                                "LK",
+                                "LR",
+                                "LS",
+                                "LT",
+                                "LU",
+                                "LV",
+                                "LY",
+                                "MA",
+                                "MC",
+                                "MD",
+                                "ME",
+                                "MF",
+                                "MG",
+                                "MH",
+                                "MK",
+                                "ML",
+                                "MM",
+                                "MN",
+                                "MO",
+                                "MP",
+                                "MQ",
+                                "MR",
+                                "MS",
+                                "MT",
+                                "MU",
+                                "MV",
+                                "MW",
+                                "MX",
+                                "MY",
+                                "MZ",
+                                "NA",
+                                "NC",
+                                "NE",
+                                "NF",
+                                "NG",
+                                "NI",
+                                "NL",
+                                "NO",
+                                "NP",
+                                "NR",
+                                "NU",
+                                "NZ",
+                                "OM",
+                                "PA",
+                                "PE",
+                                "PF",
+                                "PG",
+                                "PH",
+                                "PK",
+                                "PL",
+                                "PM",
+                                "PN"
+                            ]
+                        },
+                        "refName": {
+                            "title": "Reference Name",
+                            "type": "string"
+                        }
+                    }
+                },
+                "addr2": {
+                    "title": "Address 2",
+                    "type": "string",
+                    "nullable": true
+                },
+                "city": {
+                    "title": "City",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addr1": {
+                    "title": "Address 1",
+                    "type": "string",
+                    "nullable": true
+                },
+                "lastModifiedDate": {
+                    "title": "Last Modified Date",
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                },
+                "addr3": {
+                    "title": "Address 3",
+                    "type": "string",
+                    "nullable": true
+                },
+                "externalId": {
+                    "title": "External ID",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addrPhone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addressee": {
+                    "title": "Addressee",
+                    "type": "string",
+                    "nullable": true
+                },
+                "attention": {
+                    "title": "Attention",
+                    "type": "string",
+                    "nullable": true
+                },
+                "override": {
+                    "title": "Override",
+                    "type": "boolean"
+                },
+                "state": {
+                    "title": "State/Province",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addrText": {
+                    "title": "Address",
+                    "type": "string",
+                    "nullable": true
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            },
+            "x-ns-filterable": []
+        },
+        "inventoryBalance": {
+            "type": "object",
+            "properties": {
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                },
+                "totalResults": {
+                    "title": "Total Results",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "count": {
+                    "title": "Count",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "hasMore": {
+                    "title": "Has More Results",
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "offset": {
+                    "title": "Query Offset",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "links": {
+                                "title": "Links",
+                                "type": "array",
+                                "readOnly": true,
+                                "items": {
+                                    "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                                }
+                            },
+                            "quantityOnHand": {
+                                "title": "On-Hand Quantity",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "quantityAvailable": {
+                                "title": "Available Quantity",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "committedQtyPerSerialLotNumberLocation": {
+                                "title": "Committed Quantity (Per Serial/Lot Number & Location)",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "committedQtyPerSerialLotNumber": {
+                                "title": "Committed Quantity (Per Serial/Lot Number)",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "quantityPicked": {
+                                "title": "Picked Quantity",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "committedQtyPerLocation": {
+                                "title": "Committed Quantity (Per Location)",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "refName": {
+                                "title": "Reference Name",
+                                "type": "string"
+                            },
+                            "item": {
+                                "type": "object",
+                                "properties": {
+                                    "id": {
+                                        "title": "Internal identifier",
+                                        "type": "string"
+                                    },
+                                    "refName": {
+                                        "title": "Reference Name",
+                                        "type": "string"
+                                    },
+                                    "externalId": {
+                                        "title": "External identifier",
+                                        "type": "string"
+                                    },
+                                    "links": {
+                                        "title": "Links",
+                                        "type": "array",
+                                        "readOnly": true,
+                                        "items": {
+                                            "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "x-ns-filterable": []
+                    }
+                }
+            }
+        },
+        "returnAddress": {
+            "type": "object",
+            "properties": {
+                "zip": {
+                    "title": "Zip",
+                    "type": "string",
+                    "nullable": true
+                },
+                "country": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "title": "Internal identifier",
+                            "type": "string",
+                            "enum": [
+                                "PR",
+                                "PS",
+                                "PT",
+                                "PW",
+                                "PY",
+                                "QA",
+                                "AD",
+                                "AE",
+                                "AF",
+                                "AG",
+                                "AI",
+                                "AL",
+                                "AM",
+                                "AN",
+                                "AO",
+                                "AQ",
+                                "AR",
+                                "AS",
+                                "AT",
+                                "RE",
+                                "AU",
+                                "AW",
+                                "AX",
+                                "AZ",
+                                "RO",
+                                "BA",
+                                "BB",
+                                "RS",
+                                "BD",
+                                "BE",
+                                "RU",
+                                "BF",
+                                "BG",
+                                "RW",
+                                "BH",
+                                "BI",
+                                "BJ",
+                                "BL",
+                                "BM",
+                                "BN",
+                                "BO",
+                                "SA",
+                                "BQ",
+                                "SB",
+                                "BR",
+                                "SC",
+                                "BS",
+                                "SD",
+                                "BT",
+                                "SE",
+                                "BV",
+                                "SG",
+                                "BW",
+                                "SH",
+                                "SI",
+                                "BY",
+                                "SJ",
+                                "BZ",
+                                "SK",
+                                "SL",
+                                "SM",
+                                "SN",
+                                "SO",
+                                "CA",
+                                "SR",
+                                "CC",
+                                "SS",
+                                "CD",
+                                "ST",
+                                "CF",
+                                "SV",
+                                "CG",
+                                "CH",
+                                "SX",
+                                "CI",
+                                "SY",
+                                "SZ",
+                                "CK",
+                                "CL",
+                                "CM",
+                                "CN",
+                                "CO",
+                                "CR",
+                                "TC",
+                                "CS",
+                                "TD",
+                                "CU",
+                                "TF",
+                                "CV",
+                                "TG",
+                                "CW",
+                                "TH",
+                                "CX",
+                                "CY",
+                                "TJ",
+                                "CZ",
+                                "TK",
+                                "TL",
+                                "TM",
+                                "TN",
+                                "TO",
+                                "TR",
+                                "TT",
+                                "DE",
+                                "TV",
+                                "TW",
+                                "DJ",
+                                "TZ",
+                                "DK",
+                                "DM",
+                                "DO",
+                                "UA",
+                                "UG",
+                                "DZ",
+                                "UM",
+                                "EA",
+                                "EC",
+                                "US",
+                                "EE",
+                                "EG",
+                                "EH",
+                                "UY",
+                                "UZ",
+                                "VA",
+                                "ER",
+                                "VC",
+                                "ES",
+                                "ET",
+                                "VE",
+                                "VG",
+                                "VI",
+                                "VN",
+                                "VU",
+                                "FI",
+                                "FJ",
+                                "FK",
+                                "FM",
+                                "FO",
+                                "FR",
+                                "WF",
+                                "GA",
+                                "GB",
+                                "WS",
+                                "GD",
+                                "GE",
+                                "GF",
+                                "GG",
+                                "GH",
+                                "GI",
+                                "GL",
+                                "GM",
+                                "GN",
+                                "GP",
+                                "GQ",
+                                "GR",
+                                "GS",
+                                "GT",
+                                "GU",
+                                "GW",
+                                "GY",
+                                "XK",
+                                "HK",
+                                "HM",
+                                "HN",
+                                "HR",
+                                "HT",
+                                "YE",
+                                "HU",
+                                "IC",
+                                "ID",
+                                "YT",
+                                "IE",
+                                "IL",
+                                "IM",
+                                "IN",
+                                "IO",
+                                "ZA",
+                                "IQ",
+                                "IR",
+                                "IS",
+                                "IT",
+                                "ZM",
+                                "JE",
+                                "ZW",
+                                "JM",
+                                "JO",
+                                "JP",
+                                "KE",
+                                "KG",
+                                "KH",
+                                "KI",
+                                "KM",
+                                "KN",
+                                "KP",
+                                "KR",
+                                "KW",
+                                "KY",
+                                "KZ",
+                                "LA",
+                                "LB",
+                                "LC",
+                                "LI",
+                                "LK",
+                                "LR",
+                                "LS",
+                                "LT",
+                                "LU",
+                                "LV",
+                                "LY",
+                                "MA",
+                                "MC",
+                                "MD",
+                                "ME",
+                                "MF",
+                                "MG",
+                                "MH",
+                                "MK",
+                                "ML",
+                                "MM",
+                                "MN",
+                                "MO",
+                                "MP",
+                                "MQ",
+                                "MR",
+                                "MS",
+                                "MT",
+                                "MU",
+                                "MV",
+                                "MW",
+                                "MX",
+                                "MY",
+                                "MZ",
+                                "NA",
+                                "NC",
+                                "NE",
+                                "NF",
+                                "NG",
+                                "NI",
+                                "NL",
+                                "NO",
+                                "NP",
+                                "NR",
+                                "NU",
+                                "NZ",
+                                "OM",
+                                "PA",
+                                "PE",
+                                "PF",
+                                "PG",
+                                "PH",
+                                "PK",
+                                "PL",
+                                "PM",
+                                "PN"
+                            ]
+                        },
+                        "refName": {
+                            "title": "Reference Name",
+                            "type": "string"
+                        }
+                    }
+                },
+                "addr2": {
+                    "title": "Address 2",
+                    "type": "string",
+                    "nullable": true
+                },
+                "city": {
+                    "title": "City",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addr1": {
+                    "title": "Address 1",
+                    "type": "string",
+                    "nullable": true
+                },
+                "lastModifiedDate": {
+                    "title": "Last Modified Date",
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                },
+                "addr3": {
+                    "title": "Address 3",
+                    "type": "string",
+                    "nullable": true
+                },
+                "externalId": {
+                    "title": "External ID",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addrPhone": {
+                    "title": "Phone",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addressee": {
+                    "title": "Addressee",
+                    "type": "string",
+                    "nullable": true
+                },
+                "attention": {
+                    "title": "Attention",
+                    "type": "string",
+                    "nullable": true
+                },
+                "override": {
+                    "title": "Override",
+                    "type": "boolean"
+                },
+                "state": {
+                    "title": "State/Province",
+                    "type": "string",
+                    "nullable": true
+                },
+                "addrText": {
+                    "title": "Address",
+                    "type": "string",
+                    "nullable": true
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            },
+            "x-ns-filterable": []
+        },
+        "custrecord_bpc_locationbranchman": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "tranNumbering": {
+            "type": "object",
+            "properties": {
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                },
+                "totalResults": {
+                    "title": "Total Results",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "count": {
+                    "title": "Count",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "hasMore": {
+                    "title": "Has More Results",
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "offset": {
+                    "title": "Query Offset",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "links": {
+                                "title": "Links",
+                                "type": "array",
+                                "readOnly": true,
+                                "items": {
+                                    "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                                }
+                            },
+                            "initNumUpdate": {
+                                "title": "Update Initial Number",
+                                "type": "boolean"
+                            },
+                            "curNum": {
+                                "title": "Current Number",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "initNum": {
+                                "title": "Initial Number",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "tranTypeName": {
+                                "title": "Type",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "refName": {
+                                "title": "Reference Name",
+                                "type": "string"
+                            }
+                        },
+                        "x-ns-filterable": []
+                    }
+                }
+            }
+        },
+        "parent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "docNumbering": {
+            "type": "object",
+            "properties": {
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                },
+                "totalResults": {
+                    "title": "Total Results",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "count": {
+                    "title": "Count",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "hasMore": {
+                    "title": "Has More Results",
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "offset": {
+                    "title": "Query Offset",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "links": {
+                                "title": "Links",
+                                "type": "array",
+                                "readOnly": true,
+                                "items": {
+                                    "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                                }
+                            },
+                            "initNumUpdate": {
+                                "title": "Update Initial Number",
+                                "type": "boolean"
+                            },
+                            "curNum": {
+                                "title": "Current Number",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "initNum": {
+                                "title": "Initial Number",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "tranTypeName": {
+                                "title": "Type",
+                                "type": "string",
+                                "nullable": true
+                            },
+                            "refName": {
+                                "title": "Reference Name",
+                                "type": "string"
+                            }
+                        },
+                        "x-ns-filterable": []
+                    }
+                }
+            }
+        },
+        "custrecord_nspbcs_loc_planning_cat": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "subsidiary": {
+            "type": "object",
+            "properties": {
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                },
+                "totalResults": {
+                    "title": "Total Results",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "count": {
+                    "title": "Count",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "hasMore": {
+                    "title": "Has More Results",
+                    "type": "boolean",
+                    "readOnly": true
+                },
+                "offset": {
+                    "title": "Query Offset",
+                    "type": "integer",
+                    "format": "int64",
+                    "readOnly": true
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/subsidiary"
+                    }
+                }
+            }
+        }
+    },
+    "$schema": "http://json-schema.org/draft-06/hyper-schema#",
+    "x-ns-filterable": [
+        "isInactive",
+        "parent",
+        "custrecord_bpc_loc_emp_count",
+        "lastModifiedDate",
+        "latitude",
+        "externalId",
+        "tranPrefix",
+        "custrecord_nspbcs_loc_planning_cat",
+        "subsidiary",
+        "includeChildren",
+        "name",
+        "locationType",
+        "id",
+        "fullName",
+        "custrecord_bpc_locationbranchman",
+        "longitude"
+    ]
+}

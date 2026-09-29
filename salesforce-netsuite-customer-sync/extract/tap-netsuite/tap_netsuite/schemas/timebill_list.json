@@ -1,0 +1,502 @@
+{
+    "type": "object",
+    "properties": {
+        "tranDate": {
+            "title": "Date",
+            "type": "string",
+            "description": "NetSuite inserts today&apos;s date as the date of this transaction. You can type or pick another date.",
+            "format": "date",
+            "nullable": true
+        },
+        "externalId": {
+            "title": "External ID",
+            "type": "string",
+            "description": "Returns the external ID for the time bill, if one is specified.",
+            "nullable": true
+        },
+        "memo": {
+            "title": "Memo",
+            "type": "string",
+            "description": "If you want, enter a memo for this time transaction. If you are billing this time back to a customer or job, this memo appears as a description for this line item on the customer invoice.",
+            "nullable": true
+        },
+        "posted": {
+            "title": "Posted",
+            "type": "boolean",
+            "description": "Check this box to manually mark this time transaction as posted. This transaction is no longer available for posting and it appears on the Void Time page. Manually checking the Posted box on a time transaction does not create a corresponding journal entry. Voiding a manually checked time transaction clears the Posted box."
+        },
+        "isUtilized": {
+            "title": "Utilized",
+            "type": "boolean",
+            "description": "Displays a check mark if the employee&apos;s time directly contributed to the revenue for a project."
+        },
+        "rate": {
+            "title": "Rate",
+            "type": "number",
+            "description": "If you selected a price in the Price Level field, it automatically appears here. If you don&apos;t use multiple prices or if you selected Custom in the Price Level field, enter a rate for this time transaction. If you&apos;re entering time for a payroll item like vacation time, leave this field blank. If you&apos;re entering time for a charge-based project and there are time-based charge rules, any rate entered in this field will be overridden by the applied charge rule.",
+            "format": "double",
+            "nullable": true
+        },
+        "id": {
+            "title": "Internal ID",
+            "type": "string",
+            "description": "Returns the internal ID for the time bill.",
+            "nullable": true
+        },
+        "displayField": {
+            "title": "Time Tracking",
+            "type": "string",
+            "description": "Returns the date, internal ID, and time stamp for the user&apos;s last time tracking.",
+            "nullable": true
+        },
+        "isBillable": {
+            "title": "Billable",
+            "type": "boolean",
+            "description": "Check this box if the time you are entering can be billed."
+        },
+        "hours": {
+            "title": "Duration",
+            "type": "string",
+            "description": "If you filled in the Start Time, End Time and Break fields, NetSuite automatically fills in the Duration field for you. If you didn&apos;t fill in these fields, enter the total time worked in hours and minutes. If you want to time yourself as you work, click the Timer link next to the Duration field.",
+            "nullable": true
+        },
+        "isProductive": {
+            "title": "Productive",
+            "type": "boolean",
+            "description": "Returns a check mark if the time bill includes time worked on a project, but not included when calculating revenue for the project. Productive time is not billed to the customer."
+        },
+        "isExempt": {
+            "title": "Exempt",
+            "type": "boolean",
+            "description": "Displays a check mark if the time bill is exempt from taxation."
+        },
+        "lastModifiedDate": {
+            "title": "Last Modified Date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+        },
+        "overrideRate": {
+            "title": "Lock this Rate",
+            "type": "boolean",
+            "description": "If you&apos;re billing this time back to a customer, check this box to lock the rate you enter so it&apos;s not affected by rate changes that happen before the customer is billed. If you&apos;re entering time for a charge-based project and there are time-based charge rules, the rate is determined by the applied charge rule. Any rates entered on time records are discarded. If you are entering time for a payroll item like vacation time, leave this field blank."
+        },
+        "supervisorApproval": {
+            "title": "Supervisor Approval",
+            "type": "boolean",
+            "description": "Check this box if you have authority as a supervisor to approve this time entry."
+        },
+        "customForm": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "33",
+                        "-400"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "timeModified": {
+            "title": "Time Modified",
+            "type": "boolean",
+            "description": "Displays a check mark if the time on the bill was modified."
+        },
+        "timeType": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "P",
+                        "A",
+                        "B"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "refName": {
+            "title": "Reference Name",
+            "type": "string"
+        },
+        "links": {
+            "title": "Links",
+            "type": "array",
+            "readOnly": true,
+            "items": {
+                "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+            }
+        },
+        "payrollWorkplace": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "subsidiary": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "resourceAllocation": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "billingClass": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "item": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "location": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "timesheet": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "cseg_paactivitycode": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "employee": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "caseTaskEvent": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "department": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "customer": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "class": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        },
+        "_sdc_timesheet_id": {
+            "type": "string"
+        }
+    },
+    "$schema": "http://json-schema.org/draft-06/hyper-schema#",
+    "x-ns-filterable": [
+        "billingClass",
+        "tranDate",
+        "externalId",
+        "memo",
+        "caseTaskEvent",
+        "employee",
+        "posted",
+        "isUtilized",
+        "rate",
+        "payrollWorkplace",
+        "id",
+        "department",
+        "displayField",
+        "class",
+        "item",
+        "isBillable",
+        "hours",
+        "resourceAllocation",
+        "isProductive",
+        "isExempt",
+        "lastModifiedDate",
+        "overrideRate",
+        "subsidiary",
+        "supervisorApproval",
+        "timesheet",
+        "timeModified",
+        "location",
+        "timeType",
+        "customer"
+    ]
+}

@@ -1,0 +1,186 @@
+{
+    "type": "object",
+    "properties": {
+        "submittedhours": {
+            "title": "Submitted hours",
+            "type": "string",
+            "nullable": true
+        },
+        "approvalStatus": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "lastModifiedDate": {
+            "title": "Last Modified Date",
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+        },
+        "tranDate": {
+            "title": "Week Of",
+            "type": "string",
+            "description": "NetSuite inserts today&apos;s date as the date of this transaction. You can type or pick another date.",
+            "format": "date",
+            "nullable": true
+        },
+        "externalId": {
+            "title": "External ID",
+            "type": "string",
+            "nullable": true
+        },
+        "startDate": {
+            "title": "Start Date",
+            "type": "string",
+            "description": "NetSuite displays the start date for the current timesheet.",
+            "format": "date",
+            "nullable": true
+        },
+        "subsidiary": {
+            "title": "Subsidiary",
+            "type": "string",
+            "description": "The subsidiary associated with the employee is displayed here.",
+            "nullable": true
+        },
+        "plannedhours": {
+            "title": "Planned Hours",
+            "type": "string",
+            "nullable": true
+        },
+        "endDate": {
+            "title": "End Date",
+            "type": "string",
+            "format": "date",
+            "nullable": true
+        },
+        "customForm": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "-410"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "allocatedhours": {
+            "title": "Allocated Hours",
+            "type": "string",
+            "nullable": true
+        },
+        "name": {
+            "title": "Name",
+            "type": "string",
+            "nullable": true
+        },
+        "lockstatus": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string",
+                    "enum": [
+                        "unlocked",
+                        "locked",
+                        "partially"
+                    ]
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                }
+            }
+        },
+        "totalHours": {
+            "title": "Total Hours",
+            "type": "string",
+            "description": "NetSuite displays the total hours entered on this timesheet. This field is updated in real time.",
+            "nullable": true
+        },
+        "id": {
+            "title": "Internal ID",
+            "type": "string",
+            "nullable": true
+        },
+        "workcalendarhours": {
+            "title": "Work Calendar Hours",
+            "type": "string",
+            "nullable": true
+        },
+        "refName": {
+            "title": "Reference Name",
+            "type": "string"
+        },
+        "links": {
+            "title": "Links",
+            "type": "array",
+            "readOnly": true,
+            "items": {
+                "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+            }
+        },
+        "employee": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "title": "Internal identifier",
+                    "type": "string"
+                },
+                "refName": {
+                    "title": "Reference Name",
+                    "type": "string"
+                },
+                "externalId": {
+                    "title": "External identifier",
+                    "type": "string"
+                },
+                "links": {
+                    "title": "Links",
+                    "type": "array",
+                    "readOnly": true,
+                    "items": {
+                        "$ref": "/services/rest/record/v1/metadata-catalog/nsLink"
+                    }
+                }
+            }
+        }
+    },
+    "$schema": "http://json-schema.org/draft-06/hyper-schema#",
+    "x-ns-filterable": [
+        "submittedhours",
+        "approvalStatus",
+        "lastModifiedDate",
+        "tranDate",
+        "externalId",
+        "startDate",
+        "employee",
+        "subsidiary",
+        "plannedhours",
+        "endDate",
+        "allocatedhours",
+        "name",
+        "totalHours",
+        "id",
+        "workcalendarhours"
+    ]
+}

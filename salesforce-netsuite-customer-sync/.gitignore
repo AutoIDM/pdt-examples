@@ -1,0 +1,5 @@
+.meltano/
+.pdt/
+__pycache__/
+*.py[cod]
+.salesforce-oauth.json

@@ -1,0 +1,8 @@
+.env
+.env.*
+.secrets/
+__pycache__/
+.venv/
+.DS_Store
+**/transform/logs/
+*.egg-info/

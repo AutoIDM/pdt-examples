@@ -1,0 +1,144 @@
+{
+    "type": [
+        "object",
+        "null"
+    ],
+    "properties": {
+        "@internalId": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "@xsi:type": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "@xmlns:docFileCab": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:name": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:mediaTypeName": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:fileType": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:folder": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "@internalId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "platformCore:name": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
+        },
+        "docFileCab:fileSize": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:url": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:textFileEncoding": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:isOnline": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:isInactive": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:class": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:department": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:isPrivate": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:owner": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "@internalId": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "platformCore:name": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
+        },
+        "docFileCab:lastModifiedDate": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "docFileCab:createdDate": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    }
+}

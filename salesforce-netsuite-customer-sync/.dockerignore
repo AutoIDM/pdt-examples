@@ -1,0 +1,6 @@
+.meltano/
+.pdt/
+.venv/
+.secrets/
+.env
+__pycache__/

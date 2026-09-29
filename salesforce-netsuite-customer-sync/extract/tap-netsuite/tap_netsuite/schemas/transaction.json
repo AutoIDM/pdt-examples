@@ -1,0 +1,98 @@
+{
+    "type": [
+        "object",
+        "null"
+    ],
+    "properties": {
+        "@xsi:type": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "@xmlns:tranSales": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "tranSales:basic": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "@xmlns:platformCommon": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "platformCommon:internalId": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "properties": {
+                        "platformCore:searchValue": {
+                            "type": [
+                                "object",
+                                "null"
+                            ],
+                            "properties": {
+                                "@internalId": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "tranSales:fileJoin": {
+            "type": [
+                "object",
+                "null"
+            ],
+            "properties": {
+                "@xmlns:platformCommon": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "platformCommon:internalId": {
+                    "type": [
+                        "object",
+                        "null"
+                    ],
+                    "properties": {
+                        "platformCore:searchValue": {
+                            "type": [
+                                "object",
+                                "null"
+                            ],
+                            "properties": {
+                                "@internalId": {
+                                    "type": [
+                                        "string",
+                                        "null"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "_sdc_internal_id": {
+            "type": [
+                "string",
+                "null"
+            ]
+        }
+    }
+}

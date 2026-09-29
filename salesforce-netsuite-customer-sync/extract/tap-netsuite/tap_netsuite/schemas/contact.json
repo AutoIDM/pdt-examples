@@ -1,0 +1,39 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "externalid": {
+            "type": ["string", "null"]
+        },
+        "firstname": {
+            "type": ["string", "null"]
+        },
+        "lastname": {
+            "type": ["string", "null"]
+        },
+        "salutation": {
+            "type": ["string", "null"]
+        },
+        "title": {
+            "type": ["string", "null"]
+        },
+        "email": {
+            "type": ["string", "null"]
+        },
+        "phone": {
+            "type": ["string", "null"]
+        },
+        "mobilephone": {
+            "type": ["string", "null"]
+        },
+        "fax": {
+            "type": ["string", "null"]
+        },
+        "company": {
+            "type": ["string", "null"]
+        }
+    },
+    "$schema": "http://json-schema.org/draft-06/hyper-schema#"
+}

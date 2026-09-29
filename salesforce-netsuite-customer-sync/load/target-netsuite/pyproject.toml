@@ -1,0 +1,77 @@
+[tool.poetry]
+name = "target-netsuite"
+version = "0.0.1"
+description = "Singer target for NetSuite, built with the Meltano Singer SDK."
+readme = "README.md"
+authors = ["AutoIDM <info@autoidm.com>"]
+keywords = [
+    "ELT",
+    "NetSuite",
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+singer-sdk = { version="~=0.38.0", extras = ["faker"] }
+fs-s3fs = { version = "~=1.1.1", optional = true }
+backoff = "~=2.2.1"
+requests = "~=2.32.3"
+pytz = ">=2024.1"
+setuptools = "<81"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=8"
+ruff = "~=0.5.3"
+black = "~=24.4.2"
+singer-sdk = { version="~=0.38.0", extras = ["testing"] }
+
+[tool.poetry.extras]
+s3 = ["fs-s3fs"]
+
+[tool.mypy]
+python_version = "3.12"
+warn_unused_configs = true
+
+[tool.ruff]
+src = ["target_netsuite"]
+target-version = "py38"
+output-format = "concise"
+
+[tool.ruff.lint]
+ignore = [
+    "ANN101",  # missing-type-self
+    "ANN102",  # missing-type-cls
+    "COM812",  # missing-trailing-comma
+    "ISC001",  # single-line-implicit-string-concatenation
+    "D"     ,  # pydocsyle
+]
+select = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/*" = ["T201"]  # A check script reports its results on stdout.
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.lint.isort]
+known-first-party = ["target_netsuite"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[build-system]
+requires = ["poetry-core==1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+# CLI declaration
+target-netsuite = 'target_netsuite.target:TargetNetSuite.cli'
