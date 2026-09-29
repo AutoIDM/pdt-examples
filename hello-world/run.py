@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli==0.1.2"]
+# dependencies = ["pdt-cli[apps]==0.1.2"]
 # ///
 """Sample hello world app. Use as a template to create your own app.
 
