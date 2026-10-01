@@ -1,0 +1,115 @@
+send_anonymous_usage_stats: false
+default_environment: prod
+plugins:
+  extractors:
+  - name: tap-adobe-status
+    namespace: tap_adobe_status
+    pip_url: -e ./extract/tap-adobe-status
+    capabilities:
+    - catalog
+    - discover
+    settings:
+    - name: locale
+  - name: tap-cisa
+    namespace: tap_cisa
+    pip_url: -e ./extract/tap-cisa
+    capabilities:
+    - catalog
+    - discover
+  - name: tap-ms365-service-health
+    namespace: tap_ms365_service_health
+    pip_url: -e ./extract/tap-ms365-service-health
+    capabilities:
+    - catalog
+    - discover
+    settings:
+    - name: tenant_id
+    - name: client_id
+    - name: client_secret
+      sensitive: true
+    - name: private_key_b64
+      sensitive: true
+    - name: private_key_path
+    - name: private_key_password
+      sensitive: true
+    # The same Entra app registration names every pdt app uses.
+    config:
+      tenant_id: $PDT_AZURE_TENANT_ID
+      client_id: $PDT_AZURE_CLIENT_ID
+      client_secret: $PDT_AZURE_CLIENT_SECRET
+      private_key_b64: $PDT_AZURE_PRIVATE_KEY_B64
+      private_key_path: $PDT_AZURE_PRIVATE_KEY_PATH
+      private_key_password: $PDT_AZURE_PRIVATE_KEY_PASSWORD
+  - name: tap-duckdb
+    namespace: tap_duckdb
+    # fs requires pkg_resources, which setuptools 81 removed. duckdb-engine
+    # fails discovery on SQLAlchemy 2.1 ("pg_catalog.pg_collation" not found).
+    pip_url: git+https://github.com/MeltanoLabs/tap-duckdb.git@ba2a6cca5a1c5d3961a8a9975056920f2135078e duckdb==1.5.5 setuptools==80.9.0 sqlalchemy<2.1
+    capabilities:
+    - state
+    - catalog
+    - discover
+    settings:
+    - name: path
+    config:
+      path: $DUCKDB_PATH
+    metadata:
+      '*':
+        replication-method: FULL_TABLE
+  - name: tap-duckdb-send-once-notifications
+    inherit_from: tap-duckdb
+    select:
+    - '*\.autoidm-unsent_send_once_notifications.*'
+  loaders:
+  - name: target-duckdb
+    variant: jwills
+    pip_url: git+https://github.com/MeltanoLabs/target-duckdb.git@4dc49b9bac09966cf31ae8d06c99ffe5d0a0384a duckdb==1.5.5
+    config:
+      filepath: $DUCKDB_PATH
+      default_target_schema: $MELTANO_EXTRACT__LOAD_SCHEMA
+      add_metadata_columns: true
+  - name: target-apprise
+    namespace: target_apprise
+    pip_url: git+https://github.com/AutoIDM/target-apprise.git@b948755d6a4070d0f6fad0866be00b8abbae5c09
+    settings:
+    - name: uris
+      kind: array
+      sensitive: true
+    - name: uri_replacement
+      kind: boolean
+    config:
+      uri_replacement: false
+  transformers:
+  - name: dbt
+    namespace: dbt_duckdb
+    pip_url: dbt-core==1.10.1 dbt-duckdb==1.11.0 duckdb==1.5.5
+    commands:
+      run: run
+      mark_sent: run-operation mark_sent
+    config:
+      target: duckdb
+      path: $DUCKDB_PATH
+      project_dir: $MELTANO_PROJECT_ROOT/transform
+      PROFILES_DIR: $MELTANO_PROJECT_ROOT/transform/profile
+      target_schema: autoidm
+environments:
+- name: prod
+jobs:
+- name: extract-adobe
+  tasks:
+  - tap-adobe-status target-duckdb
+- name: extract-cisa
+  tasks:
+  - tap-cisa target-duckdb
+- name: extract-microsoft
+  tasks:
+  - tap-ms365-service-health target-duckdb
+- name: transform
+  tasks:
+  - dbt:run
+- name: notify
+  tasks:
+  - tap-duckdb-send-once-notifications target-apprise dbt:mark_sent
+venv:
+  backend: uv
+project_id: 01a0f957-5ae5-78c3-883e-d5bae57512a5

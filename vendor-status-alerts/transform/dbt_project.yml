@@ -1,0 +1,17 @@
+name: vendor_status_alerts
+version: '1.0'
+profile: meltano
+config-version: 2
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+model-paths:
+- models
+macro-paths:
+- macros
+target-path: ../.meltano/transformers/dbt/target
+log-path: logs
+clean-targets:
+- ../.meltano/transformers/dbt/target
+- logs
+on-run-start:
+  - 'CREATE SCHEMA IF NOT EXISTS autoidm_state;'
+  - 'CREATE TABLE IF NOT EXISTS autoidm_state.send_once_notifications (hash VARCHAR PRIMARY KEY, source VARCHAR, title VARCHAR, body VARCHAR, updated_at TIMESTAMPTZ, sent BOOLEAN DEFAULT FALSE);'
