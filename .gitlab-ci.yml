@@ -45,7 +45,7 @@ apps:
     - |
       version="$(ls pdt-dist | sed 's/^pdt_cli-\(.*\)-py3.*/\1/')"
       for app in $(pdt list --names); do
-        grep -q "pdt-cli\[apps\]==$version\"" "$app/run.py" || { echo "$app/run.py does not pin pdt-cli $version, so it would run PyPI pdt"; exit 1; }
+        grep -qE "pdt-cli(\[apps\])?==$version\"" "$app/run.py" || { echo "$app/run.py does not pin pdt-cli $version, so it would run PyPI pdt"; exit 1; }
         (cd "$app" && uv run run.py)
         pdt run "$app"
       done
