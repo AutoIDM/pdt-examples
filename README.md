@@ -12,6 +12,9 @@ pdt-examples:
 - pdt ci fails if pdt-examples break
 - pdt-examples ci fails if it doesn't work against pdt:master
 
+## CI variables
+Each app's env vars are CI/CD variables of this project. To copy them from an app's `.env` without showing a value, run `uv run scripts/push_env.py <app>`.
+
 ## todo - these go somewhere
 
 verify docs:
