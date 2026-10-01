@@ -98,12 +98,12 @@ def main() -> int:
             die(EXIT_CONFIG, "config.yml missing key", key=key)
         fields[name] = value
 
-    # pdt runs `--install-only` at image build time when config.yml sets
-    # build_script: ["uv run --script run.py --install-only"].
-    code = meltano(app_dir, INSTALL_ARGS, environment, fields)
-    if code != 0:
-        die(EXIT_INSTALL, "meltano install failed", exit_code=code)
+    # The Dockerfile runs `--install-only` at image build time, so a
+    # deployed job starts with every plugin installed.
     if install_only:
+        code = meltano(app_dir, INSTALL_ARGS, environment, fields)
+        if code != 0:
+            die(EXIT_INSTALL, "meltano install failed", exit_code=code)
         return EXIT_OK
 
     code = meltano(app_dir, RUN_ARGS, environment, fields)

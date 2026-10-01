@@ -21,26 +21,25 @@ A contact whose Account has no NetSuite customer yet gets a NULL `company`. It s
 - `artifacts` exports the `autoidm` and `autoidm_state` tables to CSV through `target-csv-artifacts`, so a person can review pending changes before a load.
 - `load` reads the four `netsuite_*_target_*` tables with `tap-duckdb` and writes them to `target-netsuite`.
 
-`run.py` runs `extract`, `transform`, and `artifacts`, then `load`. Each run works in a fresh directory under `.pdt/runs/`. Before the run it pulls `state/` from PDT storage, which holds `sync.duckdb`. After the run it uploads the CSV artifacts to that run's folder, then pushes `state/` back. The push happens after a failed run too, because it releases the storage lock.
-
-`run.py --install-only` runs `meltano install` and stops. The Dockerfile runs that at image build time, so a deployed job starts with every plugin installed.
+`run.py` runs `extract`, `transform`, and `artifacts` before `load`. Each run uses a fresh local directory. It pulls `state/sync.duckdb` from the PDT Store, uploads CSV artifacts to that run's artifact folder, and pushes the closed DuckDB file back to `state/` after a successful load.
 
 ## Running it locally
 
 1. Copy the names in `env.template` into a `.env` file in this folder or the project root, and fill them in.
 2. Run `pdt run salesforce-netsuite-customer-sync`.
+3. For direct Meltano commands, create the database directory and set `DUCKDB_PATH` to an absolute file path.
+4. Set `ARTIFACTS_PATH` to an output directory with a trailing slash.
+5. Run `meltano --environment dev install`, then `meltano --environment dev run --force extract transform artifacts`.
 
-For direct Meltano commands, set `DUCKDB_PATH` to an absolute file path in a directory that exists, and set `ARTIFACTS_PATH` to an output directory with a trailing slash. Then run `meltano --environment dev install` and `meltano --environment dev run --force extract transform artifacts`.
+`pdt-cli[apps]==0.1.1` ships the storage API that `run.py` uses. PDT supplies `PDT_STORAGE_URL` for the app's storage location. Without that variable, the storage API uses `.pdt/storage/<app>/` under the project root, so a local `pdt run` and a cloud job behave the same way.
 
-Without `PDT_STORAGE_URL`, storage lives under `.pdt/storage/<app>/` in the project root. pdt sets that variable for a deployed app.
-
-`meltano_environment` in `config.yml` picks the Meltano environment. `dev` points at a Salesforce sandbox and a NetSuite sandbox account. `prod` points at both production systems.
+Artifacts remain available if NetSuite loading fails. State uploads occur only after a successful load. The store has no abort call, so `run.py` deletes the state lock itself when Meltano fails; otherwise the next run would wait for the lock's 30 minute expiry. Local run files remain under this app's `.pdt/runs/` for inspection.
 
 `tap-duckdb` is pinned to a commit that bumps its SDK and DuckDB versions, because the released version does not install on Python 3.12. The project pins DuckDB 1.5.5 for the tap, the target, dbt, and the transform package. Move `pip_url` to the released package once one ships with those versions.
 
 ## The refresh token
 
-Salesforce gives the tap a new refresh token on every login and invalidates the old one. The tap keeps the current token in `$XDG_DATA_HOME/autoidm/salesforce-netsuite-customer-sync/salesforce_refresh_token.json` (`%LOCALAPPDATA%\autoidm\...` on Windows) and tries that copy first at the next login. A rejected copy, or none, falls back to the configured `TAP_SALESFORCE_REFRESH_TOKEN`. On your own computer that folder persists, so several runs of the app share one token chain. A container starts with the folder empty and discards it, so every deployed run starts from the configured token.
+The `Dockerfile` runs `uv run --script run.py --install-only` at image build time, so `meltano install` runs once when the image is built instead of at every run. Run `meltano install` yourself before the first local `uv run --script run.py`.
 
 `TAP_SALESFORCE_REFRESH_TOKEN_STORE_HOOK` names an executable that writes the new token where the next run's configured token comes from. It runs with no arguments and receives the new token on stdin.
 
