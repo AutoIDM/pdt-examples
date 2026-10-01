@@ -12,6 +12,3 @@ log-path: logs
 clean-targets:
 - ../.meltano/transformers/dbt/target
 - logs
-on-run-start:
-  - 'CREATE SCHEMA IF NOT EXISTS autoidm_state;'
-  - 'CREATE TABLE IF NOT EXISTS autoidm_state.send_once_notifications (hash VARCHAR PRIMARY KEY, title VARCHAR, body VARCHAR, sent BOOLEAN DEFAULT FALSE);'

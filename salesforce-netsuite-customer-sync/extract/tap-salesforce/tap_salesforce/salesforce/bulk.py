@@ -318,22 +318,3 @@ class Bulk:
         with metrics.http_request_timer("close_job"):
             self.sf._make_request("POST", url, headers=self._get_bulk_headers(), body=json.dumps(body))
 
-    # pylint: disable=no-self-use
-    def _iter_lines(self, response):
-        """Clone of the iter_lines function from the requests library with the change
-        to pass keepends=True in order to ensure that we do not strip the line breaks
-        from within a quoted value from the CSV stream."""
-        pending = None
-
-        for chunk in response.iter_content(decode_unicode=True, chunk_size=ITER_CHUNK_SIZE):
-            if pending is not None:
-                chunk = pending + chunk
-
-            lines = chunk.splitlines(keepends=True)
-
-            pending = lines.pop() if lines and lines[-1] and chunk and lines[-1][-1] == chunk[-1] else None
-
-            yield from lines
-
-        if pending is not None:
-            yield pending
