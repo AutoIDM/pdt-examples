@@ -31,6 +31,7 @@ import tempfile
 from pathlib import Path
 
 from pdt.config import ConfigError, check_env, load_env, merged_app
+from pdt.utils import storage
 from pdt.utils.log import die, log
 
 EXIT_OK = 0
@@ -84,11 +85,6 @@ def main() -> int:
         if code != 0:
             die(EXIT_INSTALL, "meltano install failed", exit_code=code)
         return EXIT_OK
-
-    try:
-        from pdt.utils import storage
-    except ImportError as e:
-        die(EXIT_CONFIG, "storage support unavailable", error="install pdt-cli with storage support", detail=str(e))
 
     run_parent = app_dir / ".pdt" / "runs"
     run_parent.mkdir(parents=True, exist_ok=True)
