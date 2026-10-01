@@ -63,6 +63,9 @@ FIELD_ENV = {
 def meltano(app_dir: Path, args: list[str], environment: str, fields: dict[str, str]) -> int:
     child_env = dict(os.environ)
     child_env["MELTANO_ENVIRONMENT"] = environment
+    if child_env.get("NO_COLOR"):
+        # dbt ignores NO_COLOR; the deployed image sets it so logs stay plain.
+        child_env["DBT_USE_COLORS"] = "false"
     child_env.update(fields)
     log("info", "starting meltano", args=" ".join(args), environment=environment)
     finished = subprocess.run([MELTANO, *args], cwd=app_dir, env=child_env, check=False)
