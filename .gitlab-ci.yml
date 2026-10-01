@@ -36,8 +36,10 @@ apps:
       fi
     - git init -q /tmp/pdt && git -C /tmp/pdt fetch -q --depth 1 "$PDT_URL" "$PDT_REF" && git -C /tmp/pdt checkout -q FETCH_HEAD
     - uv build -q --wheel -o "$CI_PROJECT_DIR/pdt-dist" /tmp/pdt
-    # Each run.py pins pdt-cli to one version. uv takes that version from
-    # this folder before PyPI, so the pin gets the build from PDT_REF.
+    # Each run.py pins the pdt-cli release it was written for. The script
+    # below points that pin at the version built here, and uv takes that
+    # version from this folder before PyPI, so the app runs the build from
+    # PDT_REF.
     - export UV_FIND_LINKS="$CI_PROJECT_DIR/pdt-dist"
     - uv tool install "$(ls pdt-dist/*.whl)"
     - export PATH="$HOME/.local/bin:$PATH"
@@ -45,7 +47,8 @@ apps:
     - |
       version="$(ls pdt-dist | sed 's/^pdt_cli-\(.*\)-py3.*/\1/')"
       for app in $(pdt list --names); do
-        grep -qE "pdt-cli(\[apps\])?==$version\"" "$app/run.py" || { echo "$app/run.py does not pin pdt-cli $version, so it would run PyPI pdt"; exit 1; }
+        sed -i -E "s/(pdt-cli(\[apps\])?)==[^\"]+\"/\1==$version\"/" "$app/run.py"
+        grep -qE "pdt-cli(\[apps\])?==$version\"" "$app/run.py" || { echo "$app/run.py does not pin pdt-cli, so it would run PyPI pdt"; exit 1; }
         (cd "$app" && uv run run.py)
         pdt run "$app"
       done
