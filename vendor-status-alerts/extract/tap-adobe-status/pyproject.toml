@@ -1,0 +1,13 @@
+[project]
+name = "tap-adobe-status"
+version = "0.1.0"
+description = "Singer tap for the public Adobe Status feed behind status.adobe.com"
+requires-python = ">=3.12"
+dependencies = ["singer-sdk~=0.54.7", "requests~=2.32"]
+
+[project.scripts]
+tap-adobe-status = "tap_adobe_status.tap:TapAdobeStatus.cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

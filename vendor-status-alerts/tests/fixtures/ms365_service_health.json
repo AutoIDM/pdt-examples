@@ -1,0 +1,42 @@
+{
+  "issues": [
+    {
+      "id": "EX123456",
+      "title": "Users may be unable to send email",
+      "impactDescription": "Users may be unable to send email from Outlook on the web.",
+      "classification": "incident",
+      "origin": "microsoft",
+      "status": "serviceDegradation",
+      "service": "Exchange Online",
+      "feature": "E-Mail and calendar access",
+      "featureGroup": "E-Mail and calendar access",
+      "isResolved": false,
+      "startDateTime": "2026-10-01T08:00:00Z",
+      "endDateTime": null,
+      "lastModifiedDateTime": "2026-10-01T09:30:00Z",
+      "posts": [
+        {"createdDateTime": "2026-10-01T09:30:00Z", "postType": "regular", "description": {"contentType": "html", "content": "We are rolling back a recent change."}},
+        {"createdDateTime": "2026-10-01T08:10:00Z", "postType": "regular", "description": {"contentType": "html", "content": "We are investigating."}}
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "id": "MC654321",
+      "title": "Retirement of a legacy Teams feature",
+      "category": "planForChange",
+      "severity": "normal",
+      "services": ["Microsoft Teams"],
+      "tags": ["Retirement", "Admin impact"],
+      "isMajorChange": true,
+      "actionRequiredByDateTime": "2026-12-01T00:00:00Z",
+      "startDateTime": "2026-09-30T00:00:00Z",
+      "endDateTime": "2027-01-01T00:00:00Z",
+      "lastModifiedDateTime": "2026-09-30T18:00:00Z",
+      "body": {"contentType": "html", "content": "<p>We will retire the feature.</p>"}
+    }
+  ],
+  "healthOverviews": [
+    {"id": "Exchange", "service": "Exchange Online", "status": "serviceDegradation"}
+  ]
+}
