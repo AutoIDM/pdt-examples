@@ -1,13 +1,13 @@
 # This file marks the top of your pdt project.
 # Every app folder next to this file is a job pdt can run and deploy.
 
-# Defaults for every app. An app's own config.yml can override them.
+# Defaults for every app. An app's own pdt.yml can override them.
 platform:
   provider: azure
   subscription: "3f7c321a-ccc7-41b0-9b6b-f5fd14bef70a"
   region: eastus2
 
-# Settings for one app. The app's own config.yml can hold these instead.
+# Settings for one app. The app's own pdt.yml can hold these instead.
 apps:
   - name: salesforce-netsuite-quote-to-cash
     enabled: false

@@ -34,7 +34,7 @@ For direct Meltano commands, set `DUCKDB_PATH` to an absolute file path in a dir
 
 Without `PDT_STORAGE_URL`, storage lives under `.pdt/storage/<app>/` in the project root. pdt sets that variable for a deployed app.
 
-`meltano_environment` in `config.yml` picks the Meltano environment. `dev` points at a Salesforce sandbox and a NetSuite sandbox account. `prod` points at both production systems.
+`meltano_environment` in the app's `pdt.yml` picks the Meltano environment. `dev` points at a Salesforce sandbox and a NetSuite sandbox account. `prod` points at both production systems.
 
 `tap-duckdb` is pinned to a commit that bumps its SDK and DuckDB versions, because the released version does not install on Python 3.12. The project pins DuckDB 1.5.5 for the tap, the target, dbt, and the transform package. Move `pip_url` to the released package once one ships with those versions.
 

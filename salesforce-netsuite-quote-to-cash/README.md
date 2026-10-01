@@ -19,7 +19,7 @@ The customer and contact half of this app is the same as `salesforce-netsuite-cu
 
 **NetSuite invoice**, one per sales order that already exists in NetSuite: the same `entity`, `trandate` and `memo`, plus `createdfrom`, which points at the sales order.
 
-**Salesforce Opportunity**, three custom fields: the NetSuite customer id, sales order id and invoice id. Name them in `config.yml`. The writeback fills each field as soon as its id is known, so an opportunity that is not Closed Won still gets the customer id of its account, and the other two fields stay empty until the order and the invoice exist.
+**Salesforce Opportunity**, three custom fields: the NetSuite customer id, sales order id and invoice id. Name them in the app's `pdt.yml`. The writeback fills each field as soon as its id is known, so an opportunity that is not Closed Won still gets the customer id of its account, and the other two fields stay empty until the order and the invoice exist.
 
 Two rules decide what the sync leaves alone. A NULL in a desired column means the field is unmanaged, and `transform/macros/autoidm_matcher.sql` reports no difference for it. To clear a field that already holds a value, the transform writes the string `_blank_`, and it writes that sentinel only when NetSuite actually holds a value to clear.
 
@@ -63,16 +63,16 @@ The writeback runs last in the `load` job, but the ids it carries come from the 
 ## Running it locally
 
 1. Start Postgres. The customer repositories use a container on port 5432 with user and password `postgres`.
-2. Create the three custom fields on the Salesforce Opportunity object, as Text(18), and put their API names in `config.yml`. A stock org has none of them.
+2. Create the three custom fields on the Salesforce Opportunity object, as Text(18), and put their API names in the app's `pdt.yml`. A stock org has none of them.
 3. Copy the names in `env.template` into a `.env` file at this folder or at your project root, and fill them in.
 4. Run `pdt run salesforce-netsuite-quote-to-cash`, or work inside this folder with Meltano directly: `meltano --environment dev install`, then `meltano --environment dev run --force extract transform load`.
 5. To see what the sync would change without writing anything back, run `meltano --environment dev run --force extract transform artifacts` and read the CSV files under `artifacts/`.
 
-Set `meltano_environment` in `config.yml` to choose which environment `run.py` uses. `dev` points at a Salesforce sandbox and a NetSuite sandbox account, `prod` points at both production systems, and `ci` builds a per-merge-request database.
+Set `meltano_environment` in the app's `pdt.yml` to choose which environment `run.py` uses. `dev` points at a Salesforce sandbox and a NetSuite sandbox account, `prod` points at both production systems, and `ci` builds a per-merge-request database.
 
-`run.py` copies the three field names out of `config.yml` into the child environment as `NETSUITE_CUSTOMER_ID_FIELD`, `NETSUITE_SALES_ORDER_ID_FIELD` and `NETSUITE_INVOICE_ID_FIELD`. `transform/models/salesforce/stg_salesforce_opportunity.sql` reads them with `env_var` to pick the right source columns, and falls back to the three default names when you run Meltano by hand.
+`run.py` copies the three field names out of the app's `pdt.yml` into the child environment as `NETSUITE_CUSTOMER_ID_FIELD`, `NETSUITE_SALES_ORDER_ID_FIELD` and `NETSUITE_INVOICE_ID_FIELD`. `transform/models/salesforce/stg_salesforce_opportunity.sql` reads them with `env_var` to pick the right source columns, and falls back to the three default names when you run Meltano by hand.
 
-pdt runs `uv run --script run.py --install-only` at image build time when `config.yml` sets `build_script: ["uv run --script run.py --install-only"]`, so `meltano install` runs once at build time instead of at every cold start.
+pdt runs `uv run --script run.py --install-only` at image build time when the app's `pdt.yml` sets `build_script: ["uv run --script run.py --install-only"]`, so `meltano install` runs once at build time instead of at every cold start.
 
 ## Names this app uses that do not exist yet
 
@@ -82,7 +82,7 @@ pdt runs `uv run --script run.py --install-only` at image build time when `confi
 
 **`target-netsuite` has no generic record sink.** `get_sink_class` in `target_netsuite/target.py` returns a sink only for a stream name containing `timesheet` or `timebill`, and raises for anything else. The eight streams this app sends are `netsuite_customer_target_create` and `_update`, and the same pair for `contact`, `salesorder` and `invoice`. A sink for those has to map the stream name to a NetSuite record type, has to map the lower case column names this project produces back to the camel case field names the NetSuite REST API expects, for example `companyname` to `companyName` and `createdfrom` to `createdFrom`, and has to pass the `item` column through as the record's `item` sublist rather than as a scalar field. The dispatch contract itself is already met: every record carries `_autoidm__action` set to `CREATE` or `UPDATE`.
 
-**The three Salesforce custom fields do not exist in a stock org.** `NetSuite_Customer_Id__c`, `NetSuite_Sales_Order_Id__c` and `NetSuite_Invoice_Id__c` are the default names in `config.yml`, not fields Salesforce ships. Create them, or create your own and change the names.
+**The three Salesforce custom fields do not exist in a stock org.** `NetSuite_Customer_Id__c`, `NetSuite_Sales_Order_Id__c` and `NetSuite_Invoice_Id__c` are the default names in the app's `pdt.yml`, not fields Salesforce ships. Create them, or create your own and change the names.
 
 **`PricebookEntry` is loaded and unused.** `tap-salesforce` selects it because a line item names a `PricebookEntryId` and an opportunity names a `Pricebook2Id`, so an org that prices from the pricebook rather than from the line's `UnitPrice` has the data waiting. No model reads it today.
 
@@ -98,7 +98,7 @@ Three things about it decide how `meltano.yml` is written, and all three come fr
 - Its `action` setting is plugin level, not per record. `sinks.py` reads `self.config.get("action")` and never looks at a field on the record. It shares a name with the `action` column that `autoidm_update.sql` puts on every target row, but the two never meet, because the stream map drops that column before the record reaches the target. `meltano.yml` sets `action: update` explicitly, so the writeback can never insert an Opportunity.
 - It validates each field against the object's real field list with a case sensitive lookup, `object_fields.get(field_name)`. Every column in this project is lower case, so the stream map renames the four columns it keeps to their exact Salesforce API names and drops everything else with `__else__: __NULL__`.
 
-That last point is the one wart in this app. The stream map keys in `meltano.yml` hold the API names as literal text, because a Singer stream map key cannot read a config value. So if you change a field name in `config.yml`, change the matching key in the `target-salesforce` `stream_maps` block too. `config.yml` says so at the keys themselves.
+That last point is the one wart in this app. The stream map keys in `meltano.yml` hold the API names as literal text, because a Singer stream map key cannot read a config value. So if you change a field name in the app's `pdt.yml`, change the matching key in the `target-salesforce` `stream_maps` block too. `pdt.yml` says so at the keys themselves.
 
 ## Two details worth knowing before you edit the dbt models
 
