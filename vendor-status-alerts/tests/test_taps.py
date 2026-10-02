@@ -1,7 +1,8 @@
 """Parsers of the three taps, against saved samples. No network.
 
 Run from this folder's parent with:
-    uv run --with pytest --with singer-sdk~=0.54.7 --with msal --with cryptography pytest tests
+    uv run --with pytest --with singer-sdk~=0.54.7 --with requests --with msal --with cryptography \
+        --with jinja2 --with duckdb==1.5.5 --with pytz pytest tests
 """
 
 from __future__ import annotations
@@ -45,7 +46,7 @@ def test_adobe_one_row_per_event_and_product():
 
 
 def test_adobe_plain_text_keeps_line_breaks():
-    assert plain("<p>One</p><p>Two {startDateTime}</p>", "2026-01-01", None) == "One\nTwo 2026-01-01"
+    assert plain("<p>One</p><p>Two {startDateTime}</p>", "2026-01-01T08:00:00+00:00", None) == "One\nTwo Jan 01, 2026 08:00 UTC"
 
 
 def test_cisa_advisories():
@@ -53,6 +54,7 @@ def test_cisa_advisories():
     assert {r["advisory_type"] for r in rows} == {"ics-advisories", "alerts"}
     assert all(r["title"] == r["title"].strip() for r in rows)
     assert all(r["published_at"].endswith("+00:00") for r in rows)
+    assert not any(r["summary"].startswith("View CSAF") for r in rows)
 
 
 def test_cisa_kev():

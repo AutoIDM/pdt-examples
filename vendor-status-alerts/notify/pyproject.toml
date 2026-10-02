@@ -1,0 +1,13 @@
+[project]
+name = "vendor-status-notify"
+version = "0.1.0"
+description = "Renders the vendor status email from the unsent notifications"
+requires-python = ">=3.12"
+dependencies = ["duckdb==1.5.5", "jinja2~=3.1", "pytz"]
+
+[project.scripts]
+render-email = "vendor_status_notify.render:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

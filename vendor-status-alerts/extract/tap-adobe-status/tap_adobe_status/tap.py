@@ -31,7 +31,10 @@ def plain(text: str | None, start: str | None, end: str | None) -> str | None:
     """The status page's message as plain text, with its time placeholders filled."""
     if text is None:
         return None
-    text = text.replace("{startDateTime}", start or "").replace("{endDateTime}", end or "")
+    def shown(value: str | None) -> str:
+        return datetime.fromisoformat(value).strftime("%b %d, %Y %H:%M UTC") if value else ""
+
+    text = text.replace("{startDateTime}", shown(start)).replace("{endDateTime}", shown(end))
     text = re.sub(r"<br\s*/?>|</(p|li|div)>", "\n", text, flags=re.I)
     text = html.unescape(re.sub(r"<[^>]+>", "", text))
     return re.sub(r"\n\s*\n+", "\n", text).strip()
