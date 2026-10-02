@@ -1,0 +1,128 @@
+{#-
+  The vendor status email. Edit this file to change the subject, the
+  order and names of the sections, and what each item shows.
+
+  Variables:
+    total         number of items in this email
+    generated_at  when this email was rendered (UTC)
+    sources       items grouped by source key, newest first:
+                  adobe, cisa_advisories, cisa_kev, ms365_issues, ms365_messages
+
+  Every item has source, item_id, status, title, url, updated_at, and
+  data. `data` holds the source's own fields, the columns of its table in
+  DuckDB, for example item.data.severity for Adobe or item.data.due_date
+  for CISA KEV. The `when` filter formats a timestamp: {{ value | when }}
+  or {{ value | when("%Y-%m-%d") }}.
+-#}
+{% set subject %}Vendor status: {{ total }} new update{{ "" if total == 1 else "s" }}{% endset %}
+
+{#- Section order, heading, and accent color. Remove a line to leave a source out. -#}
+{% set sections = [
+  ("ms365_issues", "Microsoft 365 service health", "#0078d4"),
+  ("ms365_messages", "Microsoft 365 Message center", "#0078d4"),
+  ("adobe", "Adobe", "#eb1000"),
+  ("cisa_kev", "CISA known exploited vulnerabilities", "#b5121b"),
+  ("cisa_advisories", "CISA advisories", "#1a4480"),
+] %}
+
+{% macro badge(text, color="#555") -%}
+  {% if text %}<span style="display:inline-block;padding:1px 8px;border-radius:10px;background:{{ color }};color:#fff;font-size:12px;">{{ text }}</span>{% endif %}
+{%- endmacro %}
+
+{% macro heading(item) -%}
+  <a href="{{ item.url }}" style="color:#1a1a1a;font-weight:bold;font-size:15px;text-decoration:none;">{{ item.title }}</a>
+{%- endmacro %}
+
+{% macro detail(label, value) -%}
+  {% if value %}<div style="color:#555;font-size:13px;"><b>{{ label }}:</b> {{ value }}</div>{% endif %}
+{%- endmacro %}
+
+{% macro adobe(item) %}
+  {{ heading(item) }} {{ badge(item.status, "#eb1000" if item.status in ("Opened", "Discovery", "Started") else "#2d7d46") }}
+  <p style="margin:6px 0;">{{ item.data.message }}</p>
+  {{ detail("Kind", item.data.kind) }}
+  {{ detail("Severity", item.data.severity) }}
+  {{ detail("Services", (item.data.services or []) | join(", ")) }}
+  {{ detail("Started", item.data.started_at | when) }}
+  {{ detail("Ended", item.data.ended_at | when) }}
+{% endmacro %}
+
+{% macro cisa_kev(item) %}
+  {{ heading(item) }} {% if item.data.known_ransomware_campaign_use == "Known" %}{{ badge("Ransomware", "#b5121b") }}{% endif %}
+  <p style="margin:6px 0;">{{ item.data.short_description }}</p>
+  {{ detail("Vendor", item.data.vendor_project ~ " " ~ item.data.product) }}
+  {{ detail("Fix by", item.data.due_date) }}
+  {{ detail("Required action", item.data.required_action | truncate(300)) }}
+{% endmacro %}
+
+{% macro cisa_advisories(item) %}
+  {{ heading(item) }}
+  <p style="margin:6px 0;">{{ item.data.summary | truncate(400) }}</p>
+  {{ detail("Published", item.updated_at | when) }}
+{% endmacro %}
+
+{% macro ms365_issues(item) %}
+  {{ heading(item) }} {{ badge(item.status, "#2d7d46" if item.data.is_resolved else "#d83b01") }}
+  <p style="margin:6px 0;">{{ item.data.impact_description }}</p>
+  {{ detail("Latest update", (item.data.latest_post or "") | striptags | truncate(400)) }}
+  {{ detail("Classification", item.data.classification) }}
+  {{ detail("Feature", item.data.feature) }}
+  {{ detail("Started", item.data.start_at | when) }}
+  {{ detail("Ended", item.data.end_at | when) }}
+  {{ detail("ID", item.item_id) }}
+{% endmacro %}
+
+{% macro ms365_messages(item) %}
+  {{ heading(item) }} {% if item.data.is_major_change %}{{ badge("Major change", "#d83b01") }}{% endif %}
+  <p style="margin:6px 0;">{{ (item.data.body or "") | striptags | truncate(300) }}</p>
+  {{ detail("Services", (item.data.services or []) | join(", ")) }}
+  {{ detail("Category", item.data.category) }}
+  {{ detail("Act by", item.data.action_required_by | when("%b %d, %Y")) }}
+  {{ detail("ID", item.item_id) }}
+{% endmacro %}
+
+{% macro other(item) %}
+  {{ heading(item) }} {{ badge(item.status) }}
+  {{ detail("Updated", item.updated_at | when) }}
+{% endmacro %}
+
+{% set renderers = {
+  "adobe": adobe, "cisa_kev": cisa_kev, "cisa_advisories": cisa_advisories,
+  "ms365_issues": ms365_issues, "ms365_messages": ms365_messages,
+} %}
+
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#f4f4f4;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f4;">
+<tr><td align="center" style="padding:16px;">
+<table role="presentation" width="640" cellpadding="0" cellspacing="0" style="max-width:640px;width:100%;background:#fff;font-family:Segoe UI,Helvetica,Arial,sans-serif;color:#1a1a1a;">
+  <tr><td style="padding:20px 24px;border-bottom:1px solid #e5e5e5;">
+    <div style="font-size:20px;font-weight:bold;">{{ subject }}</div>
+    <div style="color:#777;font-size:12px;">{{ generated_at | when }}</div>
+  </td></tr>
+{% for key, label, color in sections if sources[key] %}
+  <tr><td style="padding:16px 24px 4px;">
+    <div style="font-size:16px;font-weight:bold;border-left:4px solid {{ color }};padding-left:8px;">{{ label }} ({{ sources[key] | length }})</div>
+  </td></tr>
+  {% for item in sources[key] %}
+  <tr><td style="padding:10px 24px;border-bottom:1px solid #f0f0f0;font-size:14px;line-height:1.4;">
+    {{ renderers[key](item) }}
+  </td></tr>
+  {% endfor %}
+{% endfor %}
+{% set known = sections | map(attribute=0) | list %}
+{% for key, items in sources.items() if key not in known %}
+  <tr><td style="padding:16px 24px 4px;"><div style="font-size:16px;font-weight:bold;">{{ key }} ({{ items | length }})</div></td></tr>
+  {% for item in items %}
+  <tr><td style="padding:10px 24px;border-bottom:1px solid #f0f0f0;font-size:14px;">{{ other(item) }}</td></tr>
+  {% endfor %}
+{% endfor %}
+  <tr><td style="padding:16px 24px;color:#777;font-size:12px;">
+    Sent by vendor-status-alerts. Each item is sent once, and again when its status changes.
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>

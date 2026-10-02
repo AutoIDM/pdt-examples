@@ -39,7 +39,7 @@ def advisory_rows(xml_text: str):
             "link": link,
             "advisory_type": parts[0] if len(parts) > 1 else None,
             "title": (item.findtext("title") or "").strip(),
-            "summary": re.sub(r"\s+", " ", summary).strip()[:2000],
+            "summary": re.sub(r"^View CSAF\s+", "", re.sub(r"\s+", " ", summary).strip())[:2000],
             "published_at": parsedate_to_datetime(item.findtext("pubDate")).isoformat(),
         }
 

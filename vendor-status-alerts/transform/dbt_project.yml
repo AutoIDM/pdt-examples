@@ -14,4 +14,9 @@ clean-targets:
 - logs
 on-run-start:
   - 'CREATE SCHEMA IF NOT EXISTS autoidm_state;'
-  - 'CREATE TABLE IF NOT EXISTS autoidm_state.send_once_notifications (hash VARCHAR PRIMARY KEY, source VARCHAR, title VARCHAR, body VARCHAR, updated_at TIMESTAMPTZ, sent BOOLEAN DEFAULT FALSE);'
+  - 'CREATE TABLE IF NOT EXISTS autoidm_state.send_once_notifications (hash VARCHAR PRIMARY KEY, source VARCHAR, item_id VARCHAR, status VARCHAR, title VARCHAR, url VARCHAR, updated_at TIMESTAMPTZ, data JSON, sent BOOLEAN DEFAULT FALSE);'
+  # A database made before the email template has no item_id, status, url, or data.
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS item_id VARCHAR;'
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS status VARCHAR;'
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS url VARCHAR;'
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS data JSON;'

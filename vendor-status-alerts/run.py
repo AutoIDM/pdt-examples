@@ -7,8 +7,9 @@
 
 This folder is a complete Meltano project. Three Singer taps read the
 sources into a DuckDB file, dbt turns new items into send-once
-notifications, and target-apprise mails the digest. README.md describes
-the Meltano jobs and how to run them by hand.
+notifications, render-email builds the HTML email from
+email/digest.html.j2, and target-apprise mails it. README.md describes
+the Meltano jobs, how to change the email, and how to run them by hand.
 
 Adobe and CISA are public. Microsoft 365 is read only when PDT_AZURE_TENANT_ID
 is set. Mail goes out only when TARGET_APPRISE_URIS is set.

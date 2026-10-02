@@ -56,10 +56,10 @@ plugins:
     metadata:
       '*':
         replication-method: FULL_TABLE
-  - name: tap-duckdb-send-once-notifications
+  - name: tap-duckdb-notification-email
     inherit_from: tap-duckdb
     select:
-    - '*\.autoidm-unsent_send_once_notifications.*'
+    - '*\.autoidm-notification_email.*'
   loaders:
   - name: target-duckdb
     variant: jwills
@@ -92,6 +92,10 @@ plugins:
       project_dir: $MELTANO_PROJECT_ROOT/transform
       PROFILES_DIR: $MELTANO_PROJECT_ROOT/transform/profile
       target_schema: autoidm
+  utilities:
+  - name: render-email
+    namespace: vendor_status_notify
+    pip_url: -e ./notify
 environments:
 - name: prod
 jobs:
@@ -106,10 +110,10 @@ jobs:
   - tap-ms365-service-health target-duckdb
 - name: transform
   tasks:
-  - dbt:run
+  - dbt:run render-email
 - name: notify
   tasks:
-  - tap-duckdb-send-once-notifications target-apprise dbt:mark_sent
+  - tap-duckdb-notification-email target-apprise dbt:mark_sent
 venv:
   backend: uv
 project_id: 01a0f957-5ae5-78c3-883e-d5bae57512a5

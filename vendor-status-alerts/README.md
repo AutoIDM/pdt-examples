@@ -6,7 +6,7 @@ Adobe and CISA are public, so the app runs with no credentials. Mail starts when
 
 ## What gets mailed
 
-A run builds one digest with a section for each source and sends it through target-apprise. An item goes into the digest when it is new, or when its status changed since the last digest (for example an Adobe incident that moved from Opened to Closed). An item that changed more than `notify_lookback_days` ago stays in the database but is never mailed, which also keeps the first digest after a deploy short.
+A run builds one HTML email with a section for each source and sends it through target-apprise. Apprise adds a plain-text copy for mail clients that do not show HTML. An item goes into the digest when it is new, or when its status changed since the last digest (for example an Adobe incident that moved from Opened to Closed). An item that changed more than `notify_lookback_days` ago stays in the database but is never mailed, which also keeps the first digest after a deploy short.
 
 These rules decide which items are mailed:
 
@@ -15,13 +15,23 @@ These rules decide which items are mailed:
 - CISA KEV: every new entry.
 - Microsoft 365: every issue and every Message center post.
 
+## Changing the email
+
+`email/digest.html.j2` is the whole email. It is a Jinja template, and it is the only file to edit:
+
+- `{% set subject %}` at the top is the subject line.
+- `sections` sets the order, the heading, and the color of each source. Remove a line to leave a source out of the email.
+- One macro for each source (`adobe`, `cisa_kev`, `cisa_advisories`, `ms365_issues`, `ms365_messages`) sets what an item shows. `item.data` holds every column of that source's table in DuckDB, so a new field needs only a new line in the macro, for example `{{ detail("Regions", item.data.regions | join(", ")) }}`.
+
+The comment at the top of the file lists every variable. Each run writes the rendered email to `.pdt/email-preview.html` in this folder. To check a change, run `pdt run vendor-status-alerts` with `TARGET_APPRISE_URIS` empty and open that file in a browser. With mail off, the items stay unsent, so the next run shows them again.
+
 ## The Meltano jobs
 
 This folder is a complete Meltano project. Three Singer taps in `extract/` read the sources. `target-duckdb` loads each one into its own schema: `tap_adobe_status`, `tap_cisa`, and `tap_ms365_service_health`. Each row is updated by its primary key, so the tables keep items that the source no longer lists.
 
 - `extract-adobe`, `extract-cisa`, and `extract-microsoft` each run one tap into DuckDB.
-- `transform` runs dbt. The `vendor_events` model puts every source into one shape and adds new items to `autoidm_state.send_once_notifications`. The `unsent_send_once_notifications` model builds the digest from the rows that are not sent.
-- `notify` reads the digest with `tap-duckdb`, sends it with `target-apprise`, and then runs the `mark_sent` dbt macro. A failed send stops the job before `mark_sent`, so the next run sends the same rows again.
+- `transform` runs dbt, then `render-email`. The `vendor_events` model puts every source into one shape and adds new items to `autoidm_state.send_once_notifications`, with the source's own fields as JSON in `data`. The `unsent_send_once_notifications` model selects the rows that are not sent. `render-email` (the package in `notify/`) renders `email/digest.html.j2` over those rows into `autoidm.notification_email`.
+- `notify` reads `autoidm.notification_email` with `tap-duckdb`, sends it with `target-apprise`, and then runs the `mark_sent` dbt macro. A failed send stops the job before `mark_sent`, so the next run sends the same rows again.
 
 This is the send-once pattern of the AutoIDM customer projects. `run.py` runs each extract job by itself, so a failed source does not stop the digest from the other sources. The run then exits with code 3 so the failure shows. `run.py --install-only` runs `meltano install`. The Dockerfile runs it when it builds the image.
 
@@ -47,7 +57,7 @@ Without them the `extract-microsoft` job fails with "Microsoft Graph refused acc
 
 For direct Meltano commands, set `DUCKDB_PATH` to an absolute file path in a folder that exists. Then run `meltano run --force extract-adobe extract-cisa transform`, and `meltano run --force notify` to send the digest.
 
-To run the tests: `uv run --with pytest --with singer-sdk~=0.54.7 --with requests --with msal --with cryptography pytest tests`.
+To run the tests: `uv run --with pytest --with singer-sdk~=0.54.7 --with requests --with msal --with cryptography --with jinja2 --with duckdb==1.5.5 --with pytz pytest tests`.
 
 ## Pinned versions
 
