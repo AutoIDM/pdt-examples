@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: tap_adobe_status
+    tables:
+      - name: events
+
+  - name: tap_cisa
+    tables:
+      - name: advisories
+      - name: known_exploited_vulnerabilities
+
+  - name: autoidm_state
+    tables:
+      - name: send_once_notifications

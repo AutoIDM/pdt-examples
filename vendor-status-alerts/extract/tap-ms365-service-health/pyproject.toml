@@ -1,0 +1,13 @@
+[project]
+name = "tap-ms365-service-health"
+version = "0.1.0"
+description = "Singer tap for Microsoft 365 service health and Message center posts from Microsoft Graph"
+requires-python = ">=3.12"
+dependencies = ["singer-sdk~=0.54.7", "requests~=2.32", "msal~=1.39", "cryptography>=44"]
+
+[project.scripts]
+tap-ms365-service-health = "tap_ms365_service_health.tap:TapMs365ServiceHealth.cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

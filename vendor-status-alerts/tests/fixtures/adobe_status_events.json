@@ -1,0 +1,1697 @@
+{
+ "incidentEvent": {
+  "incidents": {
+   "202608040123": {
+    "id": "202608040123",
+    "clouds": {
+     "503461": {
+      "id": "503461",
+      "name": "Experience Cloud",
+      "cloudProducts": [
+       "503473"
+      ]
+     }
+    },
+    "products": {
+     "503473": {
+      "id": "503473",
+      "name": "Adobe Commerce",
+      "startedOn": 1785905671,
+      "endedOn": 1785906021,
+      "history": {
+       "1787586805": {
+        "status": "Closed",
+        "previousSeverity": "None",
+        "previousCustomerImpact": "None",
+        "previousOperationsImpact": "None",
+        "showEnvironment": false,
+        "id": "COM0086955",
+        "csoStatus": "Closed",
+        "previousStatus": "None",
+        "messageType": "CFS",
+        "statusTime": 1787586805,
+        "messageTime": 1787586805,
+        "severity": "Minor",
+        "customerImpact": "Some",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004476",
+        "titleToken": "title.CM0004476",
+        "serviceImpact": {
+         "productOfferings": [
+          "503548"
+         ],
+         "productServices": [
+          "321088"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "477764"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "cfsId": "CFS0002624"
+       },
+       "1785907801": {
+        "status": "Closed",
+        "previousSeverity": "Trivial",
+        "previousCustomerImpact": "None",
+        "previousOperationsImpact": "None",
+        "showEnvironment": false,
+        "id": "COM0085551",
+        "csoStatus": "Closed",
+        "previousStatus": "Opened",
+        "messageType": "Canned",
+        "statusTime": 1785907801,
+        "messageTime": 1785907801,
+        "severity": "Minor",
+        "customerImpact": "Some",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0001011",
+        "titleToken": "title.CM0001011",
+        "serviceImpact": {
+         "productOfferings": [
+          "503548"
+         ],
+         "productServices": [
+          "321088"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "449603",
+          "463685",
+          "477764"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "offerings": {
+     "503548": {
+      "id": "503548",
+      "name": "Marketplace",
+      "productServices": [
+       "318879",
+       "321088"
+      ]
+     }
+    },
+    "services": {
+     "321088": {
+      "id": "321088",
+      "name": "Magento Marketplace Store",
+      "serviceEnvironments": [
+       "449603",
+       "477764",
+       "463685"
+      ]
+     }
+    },
+    "environments": {
+     "449603": {
+      "id": "449603",
+      "name": "Magento Marketplace Store (Adobe Commerce - Marketplace - AWS - us-east-1 - STG3)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "463685": {
+      "id": "463685",
+      "name": "Magento Marketplace Store (Adobe Commerce - Marketplace - AWS - us-east-1 - STG2)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "477764": {
+      "id": "477764",
+      "name": "Magento Marketplace Store (Adobe Commerce - Marketplace - AWS - us-east-1 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     }
+    },
+    "regions": {
+     "Americas": {
+      "id": "Americas",
+      "name": "Americas"
+     }
+    }
+   }
+  },
+  "messages": {
+   "en": {
+    "message.CM0004476": {
+     "token": "message.CM0004476",
+     "textMessage": "The root cause analysis has been completed, and the Customer Statement (CFS) is now available. You can review the report <a href=\"{CFS_URL}\" >here</a>."
+    },
+    "title.CM0004476": {
+     "token": "title.CM0004476",
+     "textMessage": "We've reviewed a closed issue"
+    },
+    "message.CM0001011": {
+     "token": "message.CM0001011",
+     "textMessage": "We\u2019ve resolved the performance issue."
+    },
+    "title.CM0001011": {
+     "token": "title.CM0001011",
+     "textMessage": "We\u2019ve closed a minor issue"
+    }
+   }
+  }
+ },
+ "maintenanceEvent": {
+  "maintenance": {
+   "CHG005822158": {
+    "id": "CHG005822158",
+    "status": "Completed",
+    "cmrStatus": "Canceled",
+    "scheduledDate": 1789156219,
+    "startedOn": 1790006430,
+    "completedOn": 1790007989,
+    "type": "Normal",
+    "reminderDate": [
+     0
+    ],
+    "clouds": {
+     "503460": {
+      "id": "503460",
+      "name": "Adobe Experience Platform",
+      "cloudProducts": [
+       "503481",
+       "503482"
+      ]
+     },
+     "503461": {
+      "id": "503461",
+      "name": "Experience Cloud",
+      "cloudProducts": [
+       "503470",
+       "503473",
+       "503488"
+      ]
+     }
+    },
+    "products": {
+     "503470": {
+      "id": "503470",
+      "name": "Adobe Experience Manager",
+      "history": {
+       "1790007989": {
+        "id": "COM0089563",
+        "status": "Completed",
+        "cmrStatus": "Canceled",
+        "messageType": "Canned",
+        "messageTime": 1790007989,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004076",
+        "titleToken": "title.CM0004076",
+        "serviceImpact": {
+         "productOfferings": [
+          "503577"
+         ],
+         "productServices": [
+          "320779",
+          "320785"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "449307",
+          "500973"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1790006439": {
+        "id": "COM0088624",
+        "status": "Started",
+        "cmrStatus": "Started",
+        "messageType": "Canned",
+        "messageTime": 1790006439,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004071",
+        "titleToken": "title.CM0004071",
+        "serviceImpact": {
+         "productOfferings": [
+          "503577"
+         ],
+         "productServices": [
+          "320779",
+          "320785"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "449307",
+          "500973"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789920038": {
+        "id": "COM0088623",
+        "status": "Reminder",
+        "cmrStatus": "Reminder",
+        "messageType": "Canned",
+        "messageTime": 1789920038,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004065",
+        "titleToken": "title.CM0004065",
+        "serviceImpact": {
+         "productOfferings": [
+          "503577"
+         ],
+         "productServices": [
+          "320779",
+          "320785"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "449307",
+          "500973"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789156222": {
+        "id": "COM0088622",
+        "status": "Scheduled",
+        "cmrStatus": "Scheduled",
+        "messageType": "Canned",
+        "messageTime": 1789156222,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004062",
+        "titleToken": "title.CM0004062",
+        "serviceImpact": {
+         "productOfferings": [
+          "503577"
+         ],
+         "productServices": [
+          "320779",
+          "320785"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "449307",
+          "500973"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       }
+      }
+     },
+     "503473": {
+      "id": "503473",
+      "name": "Adobe Commerce",
+      "history": {
+       "1790007989": {
+        "id": "COM0089565",
+        "status": "Completed",
+        "cmrStatus": "Canceled",
+        "messageType": "Canned",
+        "messageTime": 1790007989,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004076",
+        "titleToken": "title.CM0004076",
+        "serviceImpact": {
+         "productOfferings": [
+          "503581"
+         ],
+         "productServices": [
+          "324077"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "444096",
+          "461932",
+          "475989"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1790006431": {
+        "id": "COM0088630",
+        "status": "Started",
+        "cmrStatus": "Started",
+        "messageType": "Canned",
+        "messageTime": 1790006431,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004071",
+        "titleToken": "title.CM0004071",
+        "serviceImpact": {
+         "productOfferings": [
+          "503581"
+         ],
+         "productServices": [
+          "324077"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "444096",
+          "461932",
+          "475989"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789920031": {
+        "id": "COM0088629",
+        "status": "Reminder",
+        "cmrStatus": "Reminder",
+        "messageType": "Canned",
+        "messageTime": 1789920031,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004065",
+        "titleToken": "title.CM0004065",
+        "serviceImpact": {
+         "productOfferings": [
+          "503581"
+         ],
+         "productServices": [
+          "324077"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "444096",
+          "461932",
+          "475989"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789156223": {
+        "id": "COM0088628",
+        "status": "Scheduled",
+        "cmrStatus": "Scheduled",
+        "messageType": "Canned",
+        "messageTime": 1789156223,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004062",
+        "titleToken": "title.CM0004062",
+        "serviceImpact": {
+         "productOfferings": [
+          "503581"
+         ],
+         "productServices": [
+          "324077"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "444096",
+          "461932",
+          "475989"
+         ],
+         "serviceRegions": [
+          "Americas"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       }
+      }
+     },
+     "503481": {
+      "id": "503481",
+      "name": "Platform Core Services",
+      "history": {
+       "1790007988": {
+        "id": "COM0089561",
+        "status": "Completed",
+        "cmrStatus": "Canceled",
+        "messageType": "Canned",
+        "messageTime": 1790007988,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004076",
+        "titleToken": "title.CM0004076",
+        "serviceImpact": {
+         "productOfferings": [
+          "521868"
+         ],
+         "productServices": [
+          "521777"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "522359",
+          "522360",
+          "522361",
+          "522362",
+          "522363",
+          "522364",
+          "533418",
+          "540381",
+          "540382",
+          "569521",
+          "569522"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1790006439": {
+        "id": "COM0088618",
+        "status": "Started",
+        "cmrStatus": "Started",
+        "messageType": "Canned",
+        "messageTime": 1790006439,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004071",
+        "titleToken": "title.CM0004071",
+        "serviceImpact": {
+         "productOfferings": [
+          "521868"
+         ],
+         "productServices": [
+          "521777"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "522359",
+          "522360",
+          "522361",
+          "522362",
+          "522363",
+          "522364",
+          "533418",
+          "540381",
+          "540382",
+          "569521",
+          "569522"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789920030": {
+        "id": "COM0088617",
+        "status": "Reminder",
+        "cmrStatus": "Reminder",
+        "messageType": "Canned",
+        "messageTime": 1789920030,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004065",
+        "titleToken": "title.CM0004065",
+        "serviceImpact": {
+         "productOfferings": [
+          "521868"
+         ],
+         "productServices": [
+          "521777"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "522359",
+          "522360",
+          "522361",
+          "522362",
+          "522363",
+          "522364",
+          "533418",
+          "540381",
+          "540382",
+          "569521",
+          "569522"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789156219": {
+        "id": "COM0088616",
+        "status": "Scheduled",
+        "cmrStatus": "Scheduled",
+        "messageType": "Canned",
+        "messageTime": 1789156219,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004062",
+        "titleToken": "title.CM0004062",
+        "serviceImpact": {
+         "productOfferings": [
+          "521868"
+         ],
+         "productServices": [
+          "521777"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "522359",
+          "522360",
+          "522361",
+          "522362",
+          "522363",
+          "522364",
+          "533418",
+          "540381",
+          "540382",
+          "569521",
+          "569522"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       }
+      }
+     },
+     "503482": {
+      "id": "503482",
+      "name": "Query Service",
+      "history": {
+       "1790007989": {
+        "id": "COM0089564",
+        "status": "Completed",
+        "cmrStatus": "Canceled",
+        "messageType": "Canned",
+        "messageTime": 1790007989,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004076",
+        "titleToken": "title.CM0004076",
+        "serviceImpact": {
+         "productOfferings": [
+          "503530"
+         ],
+         "productServices": [
+          "320405"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "455239",
+          "456225",
+          "470204",
+          "487165",
+          "488147",
+          "501180",
+          "512794",
+          "540453",
+          "540454",
+          "569639",
+          "569640",
+          "606651",
+          "607316"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1790006439": {
+        "id": "COM0088627",
+        "status": "Started",
+        "cmrStatus": "Started",
+        "messageType": "Canned",
+        "messageTime": 1790006439,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004071",
+        "titleToken": "title.CM0004071",
+        "serviceImpact": {
+         "productOfferings": [
+          "503530"
+         ],
+         "productServices": [
+          "320405"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "455239",
+          "456225",
+          "470204",
+          "487165",
+          "488147",
+          "501180",
+          "512794",
+          "540453",
+          "540454",
+          "569639",
+          "569640",
+          "606651",
+          "607316"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789920038": {
+        "id": "COM0088626",
+        "status": "Reminder",
+        "cmrStatus": "Reminder",
+        "messageType": "Canned",
+        "messageTime": 1789920038,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004065",
+        "titleToken": "title.CM0004065",
+        "serviceImpact": {
+         "productOfferings": [
+          "503530"
+         ],
+         "productServices": [
+          "320405"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "455239",
+          "456225",
+          "470204",
+          "487165",
+          "488147",
+          "501180",
+          "512794",
+          "540453",
+          "540454",
+          "569639",
+          "569640",
+          "606651",
+          "607316"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789156223": {
+        "id": "COM0088625",
+        "status": "Scheduled",
+        "cmrStatus": "Scheduled",
+        "messageType": "Canned",
+        "messageTime": 1789156223,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004062",
+        "titleToken": "title.CM0004062",
+        "serviceImpact": {
+         "productOfferings": [
+          "503530"
+         ],
+         "productServices": [
+          "320405"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "455239",
+          "456225",
+          "470204",
+          "487165",
+          "488147",
+          "501180",
+          "512794",
+          "540453",
+          "540454",
+          "569639",
+          "569640",
+          "606651",
+          "607316"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       }
+      }
+     },
+     "503488": {
+      "id": "503488",
+      "name": "Adobe Journey Optimizer",
+      "history": {
+       "1790007988": {
+        "id": "COM0089562",
+        "status": "Completed",
+        "cmrStatus": "Canceled",
+        "messageType": "Canned",
+        "messageTime": 1790007988,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004076",
+        "titleToken": "title.CM0004076",
+        "serviceImpact": {
+         "productOfferings": [
+          "503534",
+          "512717"
+         ],
+         "productServices": [
+          "321638",
+          "571237",
+          "571238"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "450665",
+          "464735",
+          "467487",
+          "478804",
+          "481583",
+          "492927",
+          "492929",
+          "495660",
+          "527110",
+          "564442",
+          "564443",
+          "564444",
+          "573202",
+          "573203",
+          "573204",
+          "573205",
+          "573206",
+          "573207",
+          "573208",
+          "573229",
+          "573230",
+          "573231",
+          "573232",
+          "573233",
+          "573234",
+          "573235",
+          "594102"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1790006439": {
+        "id": "COM0088621",
+        "status": "Started",
+        "cmrStatus": "Started",
+        "messageType": "Canned",
+        "messageTime": 1790006439,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004071",
+        "titleToken": "title.CM0004071",
+        "serviceImpact": {
+         "productOfferings": [
+          "503534",
+          "512717"
+         ],
+         "productServices": [
+          "321638",
+          "571237",
+          "571238"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "450665",
+          "464735",
+          "467487",
+          "478804",
+          "481583",
+          "492927",
+          "492929",
+          "495660",
+          "527110",
+          "564442",
+          "564443",
+          "564444",
+          "573202",
+          "573203",
+          "573204",
+          "573205",
+          "573206",
+          "573207",
+          "573208",
+          "573229",
+          "573230",
+          "573231",
+          "573232",
+          "573233",
+          "573234",
+          "573235",
+          "594102"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789920038": {
+        "id": "COM0088620",
+        "status": "Reminder",
+        "cmrStatus": "Reminder",
+        "messageType": "Canned",
+        "messageTime": 1789920038,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004065",
+        "titleToken": "title.CM0004065",
+        "serviceImpact": {
+         "productOfferings": [
+          "503534",
+          "512717"
+         ],
+         "productServices": [
+          "321638",
+          "571237",
+          "571238"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "450665",
+          "464735",
+          "467487",
+          "478804",
+          "481583",
+          "492927",
+          "492929",
+          "495660",
+          "527110",
+          "564442",
+          "564443",
+          "564444",
+          "573202",
+          "573203",
+          "573204",
+          "573205",
+          "573206",
+          "573207",
+          "573208",
+          "573229",
+          "573230",
+          "573231",
+          "573232",
+          "573233",
+          "573234",
+          "573235",
+          "594102"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       },
+       "1789156221": {
+        "id": "COM0088619",
+        "status": "Scheduled",
+        "cmrStatus": "Scheduled",
+        "messageType": "Canned",
+        "messageTime": 1789156221,
+        "customerImpact": "Medium",
+        "operationsImpact": "Performance",
+        "messageToken": "message.CM0004062",
+        "titleToken": "title.CM0004062",
+        "serviceImpact": {
+         "productOfferings": [
+          "503534",
+          "512717"
+         ],
+         "productServices": [
+          "321638",
+          "571237",
+          "571238"
+         ]
+        },
+        "locationImpact": {
+         "serviceEnvironments": [
+          "450665",
+          "464735",
+          "467487",
+          "478804",
+          "481583",
+          "492927",
+          "492929",
+          "495660",
+          "527110",
+          "564442",
+          "564443",
+          "564444",
+          "573202",
+          "573203",
+          "573204",
+          "573205",
+          "573206",
+          "573207",
+          "573208",
+          "573229",
+          "573230",
+          "573231",
+          "573232",
+          "573233",
+          "573234",
+          "573235",
+          "594102"
+         ],
+         "serviceRegions": [
+          "APAC",
+          "Americas",
+          "EMEA"
+         ]
+        },
+        "showEnvironment": false,
+        "scheduledDate": 0,
+        "startedOn": 0,
+        "completedOn": 0
+       }
+      }
+     }
+    },
+    "offerings": {
+     "503530": {
+      "id": "503530",
+      "name": "AEP Query Service",
+      "productServices": [
+       "320405"
+      ]
+     },
+     "503534": {
+      "id": "503534",
+      "name": "Journey Orchestration",
+      "productServices": [
+       "571237",
+       "571238"
+      ]
+     },
+     "503577": {
+      "id": "503577",
+      "name": "Cloud Manager",
+      "productServices": [
+       "320779",
+       "320785"
+      ]
+     },
+     "503581": {
+      "id": "503581",
+      "name": "Commerce Cloud",
+      "productServices": [
+       "324077"
+      ]
+     },
+     "512717": {
+      "id": "512717",
+      "name": "Message Delivery",
+      "productServices": [
+       "321638"
+      ]
+     },
+     "521868": {
+      "id": "521868",
+      "name": "Experimentation",
+      "productServices": [
+       "521777"
+      ]
+     }
+    },
+    "services": {
+     "320405": {
+      "id": "320405",
+      "name": "Query Service API",
+      "serviceEnvironments": [
+       "569639",
+       "456225",
+       "540453",
+       "540454",
+       "512794",
+       "488147",
+       "470204",
+       "606651",
+       "487165",
+       "607316",
+       "455239",
+       "569640",
+       "501180"
+      ]
+     },
+     "320779": {
+      "id": "320779",
+      "name": "Deploy - AEM as a Cloud Service",
+      "serviceEnvironments": [
+       "500973"
+      ]
+     },
+     "320785": {
+      "id": "320785",
+      "name": "Provisioning",
+      "serviceEnvironments": [
+       "449307"
+      ]
+     },
+     "321638": {
+      "id": "321638",
+      "name": "Sending Email Messages",
+      "serviceEnvironments": [
+       "564443",
+       "564444",
+       "492929",
+       "492927",
+       "464735",
+       "481583",
+       "594102",
+       "467487",
+       "495660",
+       "478804",
+       "450665",
+       "527110",
+       "564442"
+      ]
+     },
+     "324077": {
+      "id": "324077",
+      "name": "Commerce Eventing",
+      "serviceEnvironments": [
+       "475989",
+       "461932",
+       "444096"
+      ]
+     },
+     "521777": {
+      "id": "521777",
+      "name": "Experimentation Hub",
+      "serviceEnvironments": [
+       "522360",
+       "533418",
+       "522361",
+       "522362",
+       "522363",
+       "522364",
+       "540382",
+       "569521",
+       "569522",
+       "522359",
+       "540381"
+      ]
+     },
+     "571237": {
+      "id": "571237",
+      "name": "Journey Batch Execution",
+      "serviceEnvironments": [
+       "573231",
+       "573230",
+       "573229",
+       "573235",
+       "573234",
+       "573233",
+       "573232"
+      ]
+     },
+     "571238": {
+      "id": "571238",
+      "name": "Journey Unitary Execution",
+      "serviceEnvironments": [
+       "573208",
+       "573207",
+       "573206",
+       "573205",
+       "573204",
+       "573203",
+       "573202"
+      ]
+     }
+    },
+    "environments": {
+     "444096": {
+      "id": "444096",
+      "name": "Commerce Eventing (Adobe Commerce - Ethos - OR2 - Production)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "449307": {
+      "id": "449307",
+      "name": "Cloud Manager Provisioning Environment (Adobe Experience Manager - Cloud Manager - VA7 - Ethos12 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "450665": {
+      "id": "450665",
+      "name": "Sending Email Messages (AJO - Azure - AUS5 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "455239": {
+      "id": "455239",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - AUS5 - Prod1)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "456225": {
+      "id": "456225",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - VA7 - Stage)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "461932": {
+      "id": "461932",
+      "name": "Commerce Eventing (Adobe Commerce - Commerce Cloud - Ethos - VA6 - Prod01)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "464735": {
+      "id": "464735",
+      "name": "Sending Email Messages (AJO - Azure - NLD2 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "467487": {
+      "id": "467487",
+      "name": "Sending Email Messages (AJO - AWS - OR2 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "470204": {
+      "id": "470204",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - VA7 - Prod1)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "475989": {
+      "id": "475989",
+      "name": "Commerce Eventing (Adobe Commerce - Commerce Cloud - AWS - us-east-1 - Dedicated Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "478804": {
+      "id": "478804",
+      "name": "Sending Email Messages (AJO - Azure - VA7 - Stage)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "481583": {
+      "id": "481583",
+      "name": "Sending Email Messages (AJO - Azure - NLD2 - Stage)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "487165": {
+      "id": "487165",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - NLD2 - Prod1)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "488147": {
+      "id": "488147",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - VA7 - Integration)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "492927": {
+      "id": "492927",
+      "name": "Sending Email Messages (AJO - Azure - VA7 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "492929": {
+      "id": "492929",
+      "name": "Sending Email Messages (AJO - AWS - VA6 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "495660": {
+      "id": "495660",
+      "name": "Sending Email Messages (AJO - Azure - VA7 - Dev)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "500973": {
+      "id": "500973",
+      "name": "Cloud Manager Deploy Skyline (Adobe Experience Manager - Cloud Manager - VA7 - Ethos12 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "501180": {
+      "id": "501180",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - NLD2 - Stage)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "512794": {
+      "id": "512794",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - CAN2 - Prod1)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "522359": {
+      "id": "522359",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - AUS5 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "522360": {
+      "id": "522360",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - NLD2 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "522361": {
+      "id": "522361",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - VA7 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "522362": {
+      "id": "522362",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - VA7 - Stage)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "522363": {
+      "id": "522363",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - VA7 - Integration)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "522364": {
+      "id": "522364",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - NLD2 - Stage)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "527110": {
+      "id": "527110",
+      "name": "Sending Email Messages (AJO - Ethos - CAN2 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "533418": {
+      "id": "533418",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - CAN2 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "540381": {
+      "id": "540381",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - GBR9 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "540382": {
+      "id": "540382",
+      "name": "Experimentation Hub (AEP - Core Services - Experimentation - Azure - IND2 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "540453": {
+      "id": "540453",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - GBR9 - Prod1)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "540454": {
+      "id": "540454",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - IND2 - Prod1)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "564442": {
+      "id": "564442",
+      "name": "Sending Email Messages (AJO - Azure - CAN2 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "564443": {
+      "id": "564443",
+      "name": "Sending Email Messages (AJO - Azure - GBR9 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "564444": {
+      "id": "564444",
+      "name": "Sending Email Messages (AJO - Azure - IND2 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "569521": {
+      "id": "569521",
+      "name": "Experimentation Hub (AEP - Platform Foundation - AWS - VA6 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "569522": {
+      "id": "569522",
+      "name": "Experimentation Hub (AEP - Platform Foundation - AWS - VA6 - Stage)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "569639": {
+      "id": "569639",
+      "name": "Query Service API (AEP - Platform Foundation - AWS - VA6 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "569640": {
+      "id": "569640",
+      "name": "Query Service API (AEP - Platform Foundation - AWS - VA6 - Stage)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "573202": {
+      "id": "573202",
+      "name": "Journey Unitary Execution (AJO - Azure - VA7 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "573203": {
+      "id": "573203",
+      "name": "Journey Unitary Execution (AJO - Azure - NLD2 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "573204": {
+      "id": "573204",
+      "name": "Journey Unitary Execution (AJO - Azure - AUS5 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "573205": {
+      "id": "573205",
+      "name": "Journey Unitary Execution (AJO - Azure - CAN2 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "573206": {
+      "id": "573206",
+      "name": "Journey Unitary Execution (AJO - Azure - GBR9 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "573207": {
+      "id": "573207",
+      "name": "Journey Unitary Execution (AJO - Azure - IND2 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "573208": {
+      "id": "573208",
+      "name": "Journey Unitary Execution (AJO - Azure - VA6 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "573229": {
+      "id": "573229",
+      "name": "Journey Batch Execution (AJO - Azure - VA7 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "573230": {
+      "id": "573230",
+      "name": "Journey Batch Execution (AJO - Azure - NLD2 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "573231": {
+      "id": "573231",
+      "name": "Journey Batch Execution (AJO - Azure - AUS5 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "573232": {
+      "id": "573232",
+      "name": "Journey Batch Execution (AJO - Azure - CAN2 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "573233": {
+      "id": "573233",
+      "name": "Journey Batch Execution (AJO - Azure - GBR9 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "573234": {
+      "id": "573234",
+      "name": "Journey Batch Execution (AJO - Azure - IND2 - Prod)",
+      "serviceRegions": [
+       "APAC"
+      ]
+     },
+     "573235": {
+      "id": "573235",
+      "name": "Journey Batch Execution (AJO - Azure - VA6 - Prod)",
+      "serviceRegions": [
+       "Americas"
+      ]
+     },
+     "594102": {
+      "id": "594102",
+      "name": "Sending Email Messages (AJO - Azure - CHE2 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "606651": {
+      "id": "606651",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - CHE2 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     },
+     "607316": {
+      "id": "607316",
+      "name": "Query Service API (AEP - Platform Foundation - Azure - CHE4 - Prod)",
+      "serviceRegions": [
+       "EMEA"
+      ]
+     }
+    },
+    "regions": {
+     "APAC": {
+      "id": "APAC",
+      "name": "APAC"
+     },
+     "Americas": {
+      "id": "Americas",
+      "name": "Americas"
+     },
+     "EMEA": {
+      "id": "EMEA",
+      "name": "EMEA"
+     }
+    }
+   }
+  },
+  "messages": {
+   "en": {
+    "message.CM0004062": {
+     "token": "message.CM0004062",
+     "textMessage": "We\u2019ve scheduled maintenance to improve our services. You may experience slow performance during the maintenance period."
+    },
+    "title.CM0004071": {
+     "token": "title.CM0004071",
+     "textMessage": "We\u2019ve started a maintenance"
+    },
+    "message.CM0004065": {
+     "token": "message.CM0004065",
+     "textMessage": "We\u2019ve scheduled maintenance to improve our services. You may experience slow performance during the maintenance period."
+    },
+    "message.CM0004076": {
+     "token": "message.CM0004076",
+     "textMessage": "We\u2019ve canceled maintenance planned for {startDateTime} - {endDateTime}"
+    },
+    "message.CM0004071": {
+     "token": "message.CM0004071",
+     "textMessage": "We\u2019ve begun maintenance to improve our services. You may experience slow performance during the maintenance period."
+    },
+    "title.CM0004062": {
+     "token": "title.CM0004062",
+     "textMessage": "We\u2019ve scheduled a maintenance"
+    },
+    "title.CM0004065": {
+     "token": "title.CM0004065",
+     "textMessage": "Reminder:  Upcoming maintenance"
+    },
+    "title.CM0004076": {
+     "token": "title.CM0004076",
+     "textMessage": "We\u2019ve canceled a maintenance"
+    }
+   }
+  }
+ },
+ "globalCommEvent": {}
+}
