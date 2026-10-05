@@ -22,6 +22,13 @@ Env (creds only -- put these in .env at this folder or any parent):
     PDT_AZURE_PRIVATE_KEY_PATH (+ optional PDT_AZURE_PRIVATE_KEY_PASSWORD)
   Certificate auth wins over client-secret auth, and B64 wins over PATH.
   Email: see pdt.utils.send_email. With no email transport, findings go to stdout.
+  Optional base URLs. Unset means the production hosts, unchanged:
+    PDT_MONDAY_API_URL       default https://api.monday.com/v2
+    PDT_GRAPH_BASE_URL       default https://graph.microsoft.com/v1.0
+    PDT_ENTRA_LOGIN_BASE     unset uses pdt's login.microsoftonline.com token
+                             call (client secret or certificate). When set,
+                             the app POSTs a client-secret token request to
+                             {base}/{tenant}/oauth2/v2.0/token instead.
 
 Exit codes: 0 ok, 1 bad config, 2 Entra/Graph failure, 3 email failure,
 4 Monday API failure.
@@ -74,6 +81,48 @@ query ActiveUsers($limit: Int!, $page: Int!) {
 """.strip()
 
 
+def monday_api_url() -> str:
+    return os.environ.get("PDT_MONDAY_API_URL", "").strip() or MONDAY_API
+
+
+def graph_users_url() -> str:
+    base = os.environ.get("PDT_GRAPH_BASE_URL", "").strip().rstrip("/")
+    if base == "":
+        return GRAPH_USERS
+    return f"{base}/users"
+
+
+def entra_access_token() -> str:
+    """Production token, unless PDT_ENTRA_LOGIN_BASE points at a stand-in."""
+    base = os.environ.get("PDT_ENTRA_LOGIN_BASE", "").strip().rstrip("/")
+    if base == "":
+        return graph_token(EXIT_ENTRA)
+    tenant = os.environ.get("PDT_AZURE_TENANT_ID", "").strip()
+    client_id = os.environ.get("PDT_AZURE_CLIENT_ID", "").strip()
+    secret = os.environ.get("PDT_AZURE_CLIENT_SECRET", "").strip()
+    if tenant == "" or client_id == "" or secret == "":
+        die(EXIT_CONFIG, "PDT_ENTRA_LOGIN_BASE needs tenant, client id, and client secret")
+    url = f"{base}/{tenant}/oauth2/v2.0/token"
+    log("info", "Entra login base override", url=url)
+    body = urllib.parse.urlencode({
+        "scope": "https://graph.microsoft.com/.default",
+        "client_id": client_id,
+        "client_secret": secret,
+        "grant_type": "client_credentials",
+    }).encode()
+    payload = http_json(
+        url,
+        EXIT_ENTRA,
+        method="POST",
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+        data=body,
+    )
+    token = payload.get("access_token", "")
+    if not isinstance(token, str) or token == "":
+        die(EXIT_ENTRA, "token response had no access_token")
+    return token
+
+
 def cfg_int(cfg: dict, key: str, minimum: int, maximum: int) -> int:
     raw = str(cfg.get(key, "") or "").strip()
     if raw == "":
@@ -97,7 +146,7 @@ def fetch_monday_users(token: str, page_size: int) -> list[dict]:
             "variables": {"limit": page_size, "page": page},
         }).encode()
         payload = http_json(
-            MONDAY_API,
+            monday_api_url(),
             EXIT_MONDAY,
             method="POST",
             headers={
@@ -134,7 +183,7 @@ def fetch_entra_users(token: str) -> list[dict]:
         "$top": "999",
     })
     users = []
-    for rows in graph_pages(token, f"{GRAPH_USERS}?{params}", EXIT_ENTRA):
+    for rows in graph_pages(token, f"{graph_users_url()}?{params}", EXIT_ENTRA):
         users.extend(rows)
         log("info", "fetched Entra user page", total=len(users))
     return users
@@ -285,8 +334,14 @@ def main() -> int:
     email_to = cfg.get("email_to") or ""
     email_from = str(cfg.get("email_from") or "").strip()
 
+    monday_url = monday_api_url()
+    if monday_url != MONDAY_API:
+        log("info", "Monday API URL override", url=monday_url)
+    graph_base = os.environ.get("PDT_GRAPH_BASE_URL", "").strip()
+    if graph_base != "":
+        log("info", "Graph base URL override", url=graph_base)
     log("info", "starting", monday_page_size=page_size, email=transport)
-    token = graph_token(EXIT_ENTRA)
+    token = entra_access_token()
     log("info", "Entra token acquired")
 
     monday_rows = fetch_monday_users(os.environ.get("PDT_MONDAY_API_TOKEN", "").strip(), page_size)
