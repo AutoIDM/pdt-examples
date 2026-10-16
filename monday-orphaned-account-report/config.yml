@@ -28,6 +28,10 @@ env:
     - [PDT_AZURE_PRIVATE_KEY_PATH]
   optional:
     - PDT_AZURE_PRIVATE_KEY_PASSWORD
+    # Empty keeps the production hosts. Set these only for a local stand-in.
+    - PDT_MONDAY_API_URL
+    - PDT_GRAPH_BASE_URL
+    - PDT_ENTRA_LOGIN_BASE
     - PDT_SMTP_HOST
     - PDT_SMTP_PORT
     - PDT_SMTP_USER
