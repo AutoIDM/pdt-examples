@@ -18,7 +18,6 @@ setup(
         # fix version conflicts, see https://gitlab.com/meltano/meltano/issues/193
         "idna==3.7",
         "cryptography",
-        "pyOpenSSL",
     ],
     entry_points="""
           [console_scripts]

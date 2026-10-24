@@ -15,7 +15,3 @@ sources:
     tables:
       - name: "python_desired_netsuite_customer"
       - name: "python_desired_netsuite_contact"
-
-  - name: autoidm_state
-    tables:
-      - name: "send_once_notifications"

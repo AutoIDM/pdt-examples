@@ -17,8 +17,6 @@ else:
 
 if t.TYPE_CHECKING:
     import requests
-    from singer_sdk import Tap
-    from singer_sdk._singerlib import Schema
 
 SCHEMAS_DIR = importlib_resources.files(__package__) / "schemas"
 
@@ -214,9 +212,6 @@ class TransactionStream(NetSuiteSOAPStream):
     primary_keys: t.ClassVar[list[str]] = ["_sdc_internal_id"]
     replication_key = None
     schema_filepath = SCHEMAS_DIR / f"{name}.json"
-
-    def validate_response(self, response: requests.Response) -> None:
-        super().validate_response(response)
 
     @property
     def soap_action(self) -> str:

@@ -12,13 +12,13 @@ Contact fields: `firstname`, `lastname`, `salutation`, `title`, `email`, `phone`
 
 Two rules decide what the sync leaves alone. A NULL in a desired column means "do not manage this field", and `transform/macros/autoidm_matcher.sql` reports no change for it. To clear a field that holds a value, the transform writes the string `_blank_`. It writes that only when NetSuite holds a value to clear.
 
-A contact whose Account has no NetSuite customer yet gets a NULL `company`. It syncs without a parent, and the transform records a send-once notification. The next run links it, because the customer exists by then.
+A contact whose Salesforce Account has no NetSuite customer yet is skipped for this run, and the transform prints the reason. The next run creates the contact, because the customer exists by then.
 
 ## The four Meltano jobs
 
 - `extract` drops the two source schemas, then loads `tap-salesforce` and `tap-netsuite` into DuckDB through `target-duckdb`.
 - `transform` runs `dbt:pre_python` for the staging models, then `autoidm-transform` for the desired state, then `dbt:post_python` for the match and target tables.
-- `artifacts` exports the `autoidm` and `autoidm_state` tables to CSV through `target-csv-artifacts`, so a person can review pending changes before a load.
+- `artifacts` exports the `autoidm` and `autoidm_state` tables to CSV through `target-csv`, so a person can review pending changes before a load.
 - `load` reads the four `netsuite_*_target_*` tables with `tap-duckdb` and writes them to `target-netsuite`.
 
 `run.py` runs `extract`, `transform`, and `artifacts`, then `load`. Each run works in a fresh directory under `.pdt/runs/`. Before the run it pulls `state/` from PDT storage, which holds `sync.duckdb`. After the run it uploads the CSV artifacts to that run's folder, then pushes `state/` back. The push happens after a failed run too, because it releases the storage lock.

@@ -1,16 +1,12 @@
-import hashlib
-import json
 import os
 from functools import cached_property
 
 import pandas as pd
 from sqlalchemy import create_engine
-from sqlalchemy import TEXT, insert
+from sqlalchemy import TEXT
 
 
 class Transformation:
-
-    CLIENT_EMAIL = "it@example.com"
 
     def __init__(self) -> None:
         self.environment = os.getenv("MELTANO_ENVIRONMENT")
@@ -103,18 +99,7 @@ class Transformation:
             raise RuntimeError(msg)
         return None
 
-    def hash_notification(self, notification: dict) -> str:
-        return hashlib.sha256(json.dumps(notification, sort_keys=True).encode()).hexdigest()
-
-    @staticmethod
-    def ignore_duplicates(pd_table, conn, keys, data_iter):
-        """Insert data into a table and ignore duplicates if they already exist."""
-        data = [dict(zip(keys, row)) for row in data_iter]
-        insert_statement = insert(pd_table.table).on_conflict_do_nothing()
-        result = conn.execute(insert_statement, data)
-        return result.rowcount
-
-    def desired_customers(self, notifications: list) -> list:
+    def desired_customers(self) -> list:
         desired_rows = []
         for row in self.merged_account_df.to_dict(orient="records"):
             desired_customer = {}
@@ -157,7 +142,7 @@ class Transformation:
             desired_rows.append(desired_customer)
         return desired_rows
 
-    def desired_contacts(self, send_once_notifications: list) -> list:
+    def desired_contacts(self) -> list:
         desired_rows = []
         for row in self.merged_contact_df.to_dict(orient="records"):
             desired_contact = {}
@@ -211,10 +196,7 @@ class Transformation:
         return desired_rows
 
     def transform(self):
-        notifications = []
-        send_once_notifications = []
-
-        desired_customer_df = pd.DataFrame.from_dict(self.desired_customers(notifications=notifications))
+        desired_customer_df = pd.DataFrame.from_dict(self.desired_customers())
         print("Writing autoidm.python_desired_netsuite_customer", flush=True)
         desired_customer_df.to_sql(
             "python_desired_netsuite_customer",
@@ -239,9 +221,7 @@ class Transformation:
             "fax",
             "company",
         ]
-        desired_contact_df = pd.DataFrame.from_dict(
-            self.desired_contacts(send_once_notifications=send_once_notifications)
-        ).reindex(columns=contact_columns)
+        desired_contact_df = pd.DataFrame.from_dict(self.desired_contacts()).reindex(columns=contact_columns)
         print("Writing autoidm.python_desired_netsuite_contact", flush=True)
         desired_contact_df.to_sql(
             "python_desired_netsuite_contact",
@@ -251,27 +231,6 @@ class Transformation:
             index=False,
             dtype={column: TEXT for column in contact_columns},
         )
-
-        # notifications_df = pd.DataFrame.from_dict(notifications)
-        # print("Writing autoidm.notifications", flush=True)
-        # notifications_df.to_sql(
-        #     "notifications",
-        #     self.db_connection,
-        #     schema="autoidm",
-        #     if_exists="replace",
-        #     index=False,
-        # )
-
-        # send_once_notifications_df = pd.DataFrame.from_dict(send_once_notifications)
-        # print("Writing autoidm_state.send_once_notifications", flush=True)
-        # send_once_notifications_df.to_sql(
-        #     "send_once_notifications",
-        #     self.db_connection,
-        #     schema="autoidm_state",
-        #     if_exists="append",
-        #     index=False,
-        #     method=self.ignore_duplicates,
-        # )
 
     @staticmethod
     def run():

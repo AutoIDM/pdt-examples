@@ -188,6 +188,3 @@ class TapNetSuite(Tap):
                 soap_streams.FileCabinetStream(self),
             ])
         return streams
-
-if __name__ == "__main__":
-    TapNetSuite.cli()
