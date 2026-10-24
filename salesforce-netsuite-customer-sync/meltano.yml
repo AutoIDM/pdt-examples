@@ -140,9 +140,6 @@ plugins:
   - name: autoidm-transform
     namespace: autoidm_transform
     pip_url: -e ./autoidm-transform
-  - name: autoidm-persist_state
-    namespace: autoidm_transform
-    pip_url: -e ./autoidm-transform
 environments:
 - name: dev
   config:
@@ -191,7 +188,7 @@ jobs:
   - tap-duckdb-logs target-csv-artifacts
 - name: load
   tasks:
-  - tap-duckdb target-netsuite #tap-duckdb-notifications target-apprise tap-duckdb-send-once-notifications target-apprise autoidm-persist_state
+  - tap-duckdb target-netsuite #tap-duckdb-notifications target-apprise tap-duckdb-send-once-notifications target-apprise
 venv:
   backend: uv
 project_id: 01a05801-83bd-7106-9262-2a05cd5e38e4
