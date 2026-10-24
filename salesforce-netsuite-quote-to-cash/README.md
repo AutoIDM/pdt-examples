@@ -56,7 +56,7 @@ An opportunity gets an invoice only once its sales order exists in NetSuite, so 
 - `artifacts` exports the staging, match, and target tables to CSV through `target-csv-artifacts`, so a person can review the pending changes before a load.
 - `load` reads the eight `netsuite_*_target_*` tables with `tap-postgres` and writes them to `target-netsuite`, sends the notification tables through `target-apprise`, marks the send-once notifications as sent, then reads `salesforce_opportunity_target_update` with `tap-postgres-writeback` and writes it to `target-salesforce`.
 
-`run.py` runs `meltano install`, then `meltano run --force extract transform load`. It does not run `artifacts`; run that one by hand when you want the CSV review files.
+`run.py` runs `meltano run --force extract transform load`. It does not run `artifacts`; run that one by hand when you want the CSV review files.
 
 The writeback runs last in the `load` job, but the ids it carries come from the staging tables that `transform` built, and those hold what the previous `extract` read. So a sales order created in this run reaches Salesforce on the next run, not this one. At a five minute schedule that is a five minute lag, and the plan is the same either way: nothing is ever written twice, because the matcher sees the id already in place.
 
@@ -72,7 +72,7 @@ Set `meltano_environment` in `config.yml` to choose which environment `run.py` u
 
 `run.py` copies the three field names out of `config.yml` into the child environment as `NETSUITE_CUSTOMER_ID_FIELD`, `NETSUITE_SALES_ORDER_ID_FIELD` and `NETSUITE_INVOICE_ID_FIELD`. `transform/models/salesforce/stg_salesforce_opportunity.sql` reads them with `env_var` to pick the right source columns, and falls back to the three default names when you run Meltano by hand.
 
-pdt runs `uv run --script run.py --install-only` at image build time when `config.yml` sets `build_script: ["uv run --script run.py --install-only"]`, so `meltano install` runs once at build time instead of at every cold start.
+The `Dockerfile` runs `uv run --script run.py --install-only` at image build time, so `meltano install` runs once when the image is built instead of at every run. Run `meltano install` yourself before the first local `uv run --script run.py`.
 
 ## Names this app uses that do not exist yet
 

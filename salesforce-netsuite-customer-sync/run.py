@@ -31,6 +31,7 @@ import tempfile
 from pathlib import Path
 
 from pdt.config import ConfigError, check_env, load_env, merged_app
+from pdt.utils import storage
 from pdt.utils.log import die, log
 
 EXIT_OK = 0
@@ -85,53 +86,50 @@ def main() -> int:
             die(EXIT_INSTALL, "meltano install failed", exit_code=code)
         return EXIT_OK
 
-    try:
-        from pdt.utils import storage
-    except ImportError as e:
-        die(EXIT_CONFIG, "storage support unavailable", error="install pdt-cli with storage support", detail=str(e))
-
-    run_parent = app_dir / ".pdt" / "runs"
-    run_parent.mkdir(parents=True, exist_ok=True)
-    run_root = Path(tempfile.mkdtemp(prefix="run-", dir=run_parent))
-    state_dir = run_root / "state"
-    artifacts_dir = run_root / "artifacts"
-    duckdb_path = state_dir / "sync.duckdb"
-    state_dir.mkdir(parents=True, exist_ok=True)
-    artifacts_dir.mkdir(parents=True, exist_ok=True)
+    # One fresh local folder per run. state/ is pulled from the PDT Store
+    # under a lock, output/ collects the CSV artifacts for this run.
     store = storage.store()
-    lease = store.pull("state/", state_dir)
-    run_env = {
-        "DUCKDB_PATH": str(duckdb_path),
-        "ARTIFACTS_PATH": str(artifacts_dir) + os.sep,
-    }
-    # tap-salesforce keeps the rotating refresh token in the user's data
-    # folder, which a container discards. The hook writes it into the app's
-    # deployed secret (or the .env file here), so the next run starts from
-    # it, unless the operator picked a hook of their own.
-    if "TAP_SALESFORCE_REFRESH_TOKEN_STORE_HOOK" not in os.environ:
-        run_env["TAP_SALESFORCE_REFRESH_TOKEN_STORE_HOOK"] = str(app_dir / "scripts" / "sf-refresh-token-keyvault.py")
-
-    code = meltano(app_dir, RUN_ARGS, environment, run_env)
+    run_dir = app_dir / ".pdt" / "runs" / storage.RUN_ID
+    state_dir = run_dir / "state"
+    output_dir = run_dir / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
     try:
-        artifact_remote = store.run_folder() + "artifacts/"
-        store.fs().makedirs(artifact_remote, exist_ok=True)
-        store.push(artifacts_dir, artifact_remote)
-    except Exception as e:
-        log("error", "artifact upload failed", error=str(e))
-        if code == 0:
-            code = EXIT_RUN
-    failure = None
-    if code != 0:
-        failure = ("meltano run failed", code)
-    else:
-        code = meltano(app_dir, LOAD_ARGS, environment, run_env)
-        if code != 0:
-            failure = ("meltano load failed", code)
+        lease = store.pull("state/", state_dir)
+    except storage.StorageLocked as e:
+        die(EXIT_RUN, "state locked", error=str(e))
+    log("info", "pulled state", store=store.url, local=str(state_dir))
 
-    # Push state after a failure too, so the state lock is released for the next run.
+    def abort(message: str, code: int) -> None:
+        # The store has no abort call, so release the lock by hand. Without
+        # this a failed run blocks the next one until the lock's TTL passes.
+        if lease.lock:
+            store.backend().delete(storage.LOCK)
+        die(EXIT_RUN, message, exit_code=code)
+
+    run_env = {
+        "DUCKDB_PATH": str(state_dir / "sync.duckdb"),
+        "ARTIFACTS_PATH": str(output_dir) + os.sep,
+        # tap-salesforce rotates its refresh token, so the store must survive the run.
+        "SALESFORCE_REFRESH_TOKEN_STORE_DIR": str(state_dir),
+    }
+    code = meltano(app_dir, RUN_ARGS, environment, run_env)
+    if code != 0:
+        abort("meltano run failed", code)
+
+    # Artifacts go up before the load, so a person can review them even
+    # when NetSuite rejects the writes.
+    artifacts = store.run_folder() + "artifacts/"
+    store.push(output_dir, artifacts)
+    log("info", "pushed artifacts", remote=artifacts)
+
+    code = meltano(app_dir, LOAD_ARGS, environment, run_env)
+    if code != 0:
+        abort("meltano load failed", code)
+
+    # A successful load is the only thing that advances the shared state.
+    # This also releases the lock the pull took.
     store.push(state_dir, "state/", lease)
-    if failure is not None:
-        die(EXIT_RUN, failure[0], exit_code=failure[1])
+    log("info", "pushed state", remote="state/")
 
     log("info", "sync complete", environment=environment)
     return EXIT_OK
