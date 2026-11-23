@@ -4,7 +4,7 @@ Small scheduled jobs that IT teams actually run, ready to copy into your own [pd
 
 Most IT teams have a handful of scripts that someone runs by hand every week: a license report, an export before a change window, a check for accounts that should have been removed. They live on one person's laptop, and they stop when that person is on holiday. pdt runs those scripts on a schedule in your own cloud account (AWS, Azure, or Google Cloud) or in Windows Task Scheduler, keeps their output and logs, and keeps their passwords out of the code. You do not need to know containers or cloud services to use it; `pdt deploy` asks a few plain questions and does the rest.
 
-Each folder here is one of those jobs. They are taken from real customer work, and they run against real systems on every change to pdt, so what you copy is known to work. Use one as it is, or as a starting point for your own.
+Each folder here is one of those jobs. They are taken from real customer work. Use one as it is, or as a starting point for your own.
 
 ## What is here
 
@@ -59,7 +59,6 @@ If an example does not work for you, or you have a job in mind that you think wo
 This repository also tests pdt. The purpose is to make sure pdt works for real scenarios against real systems; it does not try to cover every environment. `pdt/verify` holds the comprehensive pdt tests.
 
 - The examples must always work against pdt `master`.
-- pdt CI fails when an example here breaks.
 - No CI runs the examples today. On GitHub, only CodeQL runs on this repository.
 
 Still to do: test the docs in both repositories, so each documented command runs as a test.
