@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli[apps]==0.1.2", "meltano==4.2.2"]
+# dependencies = ["pdt-cli[apps]==0.1.15", "meltano==4.2.2"]
 # ///
 """Copy Salesforce accounts and contacts into NetSuite customers and contacts.
 
@@ -14,7 +14,7 @@ Needs a Salesforce user with API access, a NetSuite integration record with
 REST Web Services and OAuth 2.0 client credentials, and a DuckDB file
 for the staging tables.
 
-Credentials come from .env at this folder or any parent. config.yml lists
+Credentials come from .env at this folder or any parent. pdt.yml lists
 the names, and env.template describes each one.
 
 Exit codes: 0 ok, 1 bad config, 2 meltano install failure, 3 meltano run
@@ -75,7 +75,7 @@ def main() -> int:
         die(EXIT_CONFIG, "env vars missing", problems="; ".join(problems))
     environment = str(app["config"].get("meltano_environment", "") or "").strip()
     if environment == "":
-        die(EXIT_CONFIG, "config.yml missing key", key="meltano_environment")
+        die(EXIT_CONFIG, "pdt.yml missing key", key="meltano_environment")
 
     # The Dockerfile runs `--install-only` at image build time, so a
     # deployed job starts with every plugin installed.
