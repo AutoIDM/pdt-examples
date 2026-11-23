@@ -15,9 +15,8 @@ Each folder here is one of those jobs. They are taken from real customer work, a
 | [`intune-export`](intune-export) | Backs up your Intune configuration with [IntuneManagement](https://github.com/Micke-K/IntuneManagement), keeps a dated zip of each export, and lists what changed since the last one. | PowerShell | weekly |
 | [`monday-orphaned-account-report`](monday-orphaned-account-report) | Emails a list of active monday.com users who no longer have an active Entra ID account. | Python | daily |
 | [`salesforce-netsuite-customer-sync`](salesforce-netsuite-customer-sync) | Copies Salesforce accounts and contacts into NetSuite customers and contacts, so sales and finance see the same companies. | Python (Meltano) | hourly |
-| [`salesforce-netsuite-quote-to-cash`](salesforce-netsuite-quote-to-cash) | Turns a Closed Won Salesforce opportunity into a NetSuite sales order and invoice. Not finished yet, so pdt leaves it out. | Python (Meltano) | every 5 minutes |
 
-Every example's `config.yml` starts with a short description, and says which permissions the job needs and which settings you can change. The two Salesforce examples also have their own `README.md`.
+Every example's `pdt.yml` starts with a short description, and says which permissions the job needs and which settings you can change. The Salesforce example also has its own `README.md`.
 
 ## Try one
 
@@ -34,7 +33,7 @@ cd my-jobs
 
 On Windows, use `Copy-Item -Recurse pdt-examples\azure-license-waste my-jobs\` in place of the `cp` line.
 
-Next, give the job the passwords and keys it needs. If the example has an `env.template`, copy the names from it into a file called `.env` in `my-jobs` and fill in the values; otherwise the `env:` list in its `config.yml` names them. `.env` stays on your computer and is never committed. Check that nothing is missing, and run the job once on your own computer:
+Next, give the job the passwords and keys it needs. If the example has an `env.template`, copy the names from it into a file called `.env` in `my-jobs` and fill in the values; otherwise the `env:` list in its `pdt.yml` names them. `.env` stays on your computer and is never committed. Check that nothing is missing, and run the job once on your own computer:
 
 ```
 pdt validate
@@ -49,7 +48,7 @@ pdt deploy azure-license-waste
 
 The deploy shows you everything it will create and what it should cost each month before it changes anything, and asks before it goes ahead. `pdt destroy azure-license-waste` removes all of it again.
 
-Please do not run the jobs from inside this folder. Its `pdt.yml` belongs to the account we test against, not to yours.
+Please do not run the jobs from inside this folder. The `pdt.yml` at the top of this folder belongs to the account we test against, not to yours.
 
 ## Questions and ideas
 
@@ -61,6 +60,6 @@ This repository also tests pdt. The purpose is to make sure pdt works for real s
 
 - The examples must always work against pdt `master`.
 - pdt CI fails when an example here breaks.
-- CI here fails when an example does not work against pdt `master`. `.gitlab-ci.yml` builds pdt from the matching branch, or `master`, and runs every app that `pdt list --names` prints. An app with `enabled: false` in its `config.yml` is left out.
+- No CI runs the examples today. On GitHub, only CodeQL runs on this repository.
 
 Still to do: test the docs in both repositories, so each documented command runs as a test.
