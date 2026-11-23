@@ -7,7 +7,7 @@
 
     uv run scripts/push_env.py <app>
 
-Copies every key that <app>/config.yml lists under env: and that has a value
+Copies every key that <app>/pdt.yml lists under env: and that has a value
 in <app>/.env. It prints key names only, never a value. It needs glab signed
 in with Maintainer access to autoidm/pdt-examples.
 """
@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def app_keys(app: Path) -> list[str]:
-    env = (yaml.safe_load((app / "config.yml").read_text()) or {}).get("env") or {}
+    env = (yaml.safe_load((app / "pdt.yml").read_text()) or {}).get("env") or {}
     keys = [*env.get("required", []), *env.get("optional", [])]
     keys += [key for group in env.get("one_of", []) for key in group]
     return keys
