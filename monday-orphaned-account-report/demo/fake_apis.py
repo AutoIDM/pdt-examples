@@ -4,15 +4,17 @@
 Entra serves the client-credentials token route and Graph /users.
 Monday serves the users query the report sends. No real credentials.
 
-dvisch@autoidm.com is present and disabled, so a live Monday tenant whose
-only active user is that address shows up as orphaned. The Monday fixture
-also includes Contoso accounts so the all-mock run finds several orphans.
+DEMO_ORPHAN_EMAIL (default orphan@example.com) is present and disabled, so
+a live Monday tenant whose only active user is that address shows up as
+orphaned. The Monday fixture also includes Contoso accounts so the
+all-mock run finds several orphans.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import threading
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -51,9 +53,9 @@ ENTRA_USERS = [
         "accountEnabled": True,
     },
     {
-        "id": "entra-derek",
-        "displayName": "Derek Visch",
-        "userPrincipalName": "dvisch@autoidm.com",
+        "id": "entra-orphan",
+        "displayName": "Demo Orphan",
+        "userPrincipalName": os.environ.get("DEMO_ORPHAN_EMAIL", "").strip() or "orphan@example.com",
         "accountEnabled": False,
     },
 ]

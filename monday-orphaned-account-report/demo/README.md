@@ -10,7 +10,7 @@ uv tool install pdt-cli
 
 ## (a) Real Monday, fake Entra
 
-Uses `https://api.monday.com/v2` and a local Entra token plus Graph `/users` stand-in. `dvisch@autoidm.com` is in that directory and disabled, so an active Monday user with that email is reported as orphaned.
+Uses `https://api.monday.com/v2` and a local Entra token plus Graph `/users` stand-in. That directory holds one disabled user, `orphan@example.com`, so an active Monday user with that email is reported as orphaned. Set `DEMO_ORPHAN_EMAIL` to the email of a real Monday user to use that address instead.
 
 Pass a file that contains only the Monday token. The script exports `PDT_MONDAY_API_TOKEN` and does not print it.
 
