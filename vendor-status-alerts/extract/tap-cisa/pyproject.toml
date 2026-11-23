@@ -1,0 +1,13 @@
+[project]
+name = "tap-cisa"
+version = "0.1.0"
+description = "Singer tap for CISA advisories and the Known Exploited Vulnerabilities catalog"
+requires-python = ">=3.12"
+dependencies = ["singer-sdk~=0.54.7", "requests~=2.32"]
+
+[project.scripts]
+tap-cisa = "tap_cisa.tap:TapCisa.cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

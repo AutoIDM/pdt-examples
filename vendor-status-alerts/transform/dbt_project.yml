@@ -1,0 +1,22 @@
+name: vendor_status_alerts
+version: '1.0'
+profile: meltano
+config-version: 2
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+model-paths:
+- models
+macro-paths:
+- macros
+target-path: ../.meltano/transformers/dbt/target
+log-path: logs
+clean-targets:
+- ../.meltano/transformers/dbt/target
+- logs
+on-run-start:
+  - 'CREATE SCHEMA IF NOT EXISTS autoidm_state;'
+  - 'CREATE TABLE IF NOT EXISTS autoidm_state.send_once_notifications (hash VARCHAR PRIMARY KEY, source VARCHAR, item_id VARCHAR, status VARCHAR, title VARCHAR, url VARCHAR, updated_at TIMESTAMPTZ, data JSON, sent BOOLEAN DEFAULT FALSE);'
+  # A database made before the email template has no item_id, status, url, or data.
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS item_id VARCHAR;'
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS status VARCHAR;'
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS url VARCHAR;'
+  - 'ALTER TABLE autoidm_state.send_once_notifications ADD COLUMN IF NOT EXISTS data JSON;'
