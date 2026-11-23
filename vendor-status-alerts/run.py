@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli[apps]==0.1.3", "meltano==4.2.2"]
+# dependencies = ["pdt-cli[apps]==0.1.15", "meltano==4.2.2"]
 # ///
 """Mail one digest of new vendor status events: Adobe, CISA, and Microsoft 365.
 
@@ -14,7 +14,7 @@ the Meltano jobs, how to change the email, and how to run them by hand.
 Adobe and CISA are public. Microsoft 365 is read only when PDT_AZURE_TENANT_ID
 is set. Mail goes out only when TARGET_APPRISE_URIS is set.
 
-Credentials come from .env at this folder or any parent. config.yml lists
+Credentials come from .env at this folder or any parent. pdt.yml lists
 the names, and env.template describes each one.
 
 Exit codes: 0 ok, 1 bad config, 2 meltano install failure, 3 meltano run
@@ -54,14 +54,14 @@ def meltano(app_dir: Path, args: list[str], run_env: dict[str, str] | None = Non
 def lookback_days(cfg: dict) -> int:
     raw = str(cfg.get("notify_lookback_days", "") or "").strip()
     if not raw.isdigit() or int(raw) < 1:
-        die(EXIT_CONFIG, "config.yml value must be a whole number of days, 1 or more", key="notify_lookback_days", value=raw)
+        die(EXIT_CONFIG, "pdt.yml value must be a whole number of days, 1 or more", key="notify_lookback_days", value=raw)
     return int(raw)
 
 
 def adobe_products(cfg: dict) -> str:
     names = cfg.get("adobe_products") or []
     if not isinstance(names, list) or not all(isinstance(n, str) for n in names):
-        die(EXIT_CONFIG, "config.yml value must be a list of Adobe product or cloud names", key="adobe_products")
+        die(EXIT_CONFIG, "pdt.yml value must be a list of Adobe product or cloud names", key="adobe_products")
     return "|".join(n.strip() for n in names if n.strip())
 
 

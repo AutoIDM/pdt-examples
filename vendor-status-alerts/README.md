@@ -10,7 +10,7 @@ A run builds one HTML email with a section for each source and sends it through 
 
 These rules decide which items are mailed:
 
-- Adobe: only the products and clouds in `adobe_products` in `config.yml`. The default list holds Creative Cloud, Document Cloud, Administrative Consoles, and Adobe Account Management. An empty list mails every Adobe product, about 25 items a day.
+- Adobe: only the products and clouds in `adobe_products` in `pdt.yml`. The default list holds Creative Cloud, Document Cloud, Administrative Consoles, and Adobe Account Management. An empty list mails every Adobe product, about 25 items a day.
 - CISA advisories: every advisory except the industrial control system advisories (`ics-advisories`) and the "CISA Adds ... Known Exploited Vulnerabilities" alerts, because each KEV entry is mailed by itself. Change the `cisa_advisories` part of `transform/models/vendor_events.sql` to mail more.
 - CISA KEV: every new entry.
 - Microsoft 365: every issue and every Message center post.
