@@ -21,7 +21,7 @@ A contact whose Account has no NetSuite customer yet gets a NULL `company`. It s
 - `artifacts` exports the `autoidm` and `autoidm_state` tables to CSV through `target-csv-artifacts`, so a person can review pending changes before a load.
 - `load` reads the four `netsuite_*_target_*` tables with `tap-duckdb` and writes them to `target-netsuite`.
 
-`run.py` runs `extract`, `transform`, and `artifacts`, then `load`. Each run works in a fresh directory under `.pdt/runs/`. Before the run it pulls `state/` from PDT storage, which holds `sync.duckdb`. After the run it uploads the CSV artifacts to that run's folder, then pushes `state/` back. The push happens after a failed run too, because it releases the storage lock.
+`run.py` runs `extract`, `transform`, and `artifacts`, then `load`. Each run works in a fresh directory under `.pdt/runs/`. Before the run it pulls `state/` from PDT storage, which holds `sync.duckdb`. After the run it uploads the CSV artifacts to that run's folder, pushes `state/` back, and releases the storage lock. `storage.sync()` in pdt does these steps, also after a failed run, so a failed run does not block the next one. If a run stops without releasing the lock, `pdt storage salesforce-netsuite-customer-sync unlock` releases it.
 
 `run.py --install-only` runs `meltano install` and stops. The Dockerfile runs that at image build time, so a deployed job starts with every plugin installed.
 

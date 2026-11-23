@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli[apps]==0.1.2"]
+# dependencies = ["pdt-cli[apps]==0.1.15"]
 # ///
 """tap-salesforce refresh_token_store_hook: writes the token into the app's pdt secret.
 
