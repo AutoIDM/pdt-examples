@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli[apps]==0.1.2"]
+# dependencies = ["pdt-cli[apps]==0.1.15"]
 # ///
 """Report active Monday users with no active Entra ID account.
 
