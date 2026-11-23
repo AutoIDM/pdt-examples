@@ -12,6 +12,10 @@ pdt-examples:
 - pdt ci fails if pdt-examples break
 - pdt-examples ci fails if it doesn't work against pdt:master
 
+## demo
+
+`monday-orphaned-account-report/demo/` runs the orphan report without a real Entra tenant. See that folder's README for the all-mock command and the real-Monday plus fake-Entra command.
+
 ## todo - these go somewhere
 
 verify docs:
