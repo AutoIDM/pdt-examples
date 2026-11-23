@@ -1,5 +1,5 @@
 # Runs every app that `pdt list --names` prints against one pdt commit. An app
-# with `enabled: false` in its config.yml is left out.
+# with `enabled: false` in its own pdt.yml is left out.
 # The app's env vars (see its env.template) are CI/CD variables of this project.
 
 default:

@@ -1,7 +1,7 @@
 #!/usr/bin/env -S uv run --script
 # /// script
 # requires-python = ">=3.12"
-# dependencies = ["pdt-cli[apps]==0.1.2"]
+# dependencies = ["pdt-cli[apps]==0.1.15"]
 # ///
 """Report active Monday users with no active Entra ID account.
 
@@ -77,13 +77,13 @@ query ActiveUsers($limit: Int!, $page: Int!) {
 def cfg_int(cfg: dict, key: str, minimum: int, maximum: int) -> int:
     raw = str(cfg.get(key, "") or "").strip()
     if raw == "":
-        die(EXIT_CONFIG, "config.yml missing key", key=key)
+        die(EXIT_CONFIG, "pdt.yml missing key", key=key)
     try:
         value = int(raw)
     except ValueError:
-        die(EXIT_CONFIG, "config.yml value is not an integer", key=key, value=raw)
+        die(EXIT_CONFIG, "pdt.yml value is not an integer", key=key, value=raw)
     if not minimum <= value <= maximum:
-        die(EXIT_CONFIG, "config.yml value is out of range",
+        die(EXIT_CONFIG, "pdt.yml value is out of range",
             key=key, value=value, minimum=minimum, maximum=maximum)
     return value
 
